@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/searchHomeFragment"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/title_home"/>
+
+    <item
+            android:id="@+id/currentlyAttendingFragment"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:title="@string/title_dashboard"/>
+
+    <item
+            android:id="@+id/messagesListFragment"
+            android:icon="@drawable/ic_message_black_24dp"
+            android:title="@string/title_notifications"/>
+
+    <item
+            android:id="@+id/recentlyMetPlayersFragment"
+            android:icon="@drawable/ic_people_outline_black_24dp"
+            android:title="players met"
+            />
+
+    <item
+            android:id="@+id/friendsListFragment"
+            android:icon="@drawable/ic_friends_list_black_24dp"
+            android:title="friends list"
+            />
+
+</menu>

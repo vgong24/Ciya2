@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/nav_graph"
+            app:startDestination="@id/searchHomeFragment">
+
+    <fragment
+            android:id="@+id/searchHomeFragment"
+            android:name="com.victoweng.ciya2.SearchHomeFragment"
+            tools:layout="@layout/fragment_search_home">
+        <action
+                android:id="@+id/action_searchHomeFragment_to_eventCreationFragment"
+                app:destination="@id/eventCreationFragment"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/eventCreationFragment"
+            android:name="com.victoweng.ciya2.EventCreationFragment"
+            tools:layout="@layout/fragment_event_creation">
+        <action
+                android:id="@+id/action_eventCreationFragment_to_chooseLocationFragment"
+                app:destination="@id/chooseLocationFragment"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/chooseLocationFragment"
+            android:name="com.victoweng.ciya2.ChooseLocationFragment"
+            tools:layout="@layout/fragment_choose_location">
+        <action
+                android:id="@+id/action_chooseLocationFragment_to_enterDetailsFragment"
+                app:destination="@id/enterDetailsFragment"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/enterDetailsFragment"
+            android:name="com.victoweng.ciya2.EnterDetailsFragment"
+            tools:layout="@layout/fragment_enter_details">
+        <action
+                android:id="@+id/action_enterDetailsFragment_to_reviewEventDetailsFragment"
+                app:destination="@id/reviewEventDetailsFragment"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/reviewEventDetailsFragment"
+            android:name="com.victoweng.ciya2.ReviewEventDetailsFragment"
+            tools:layout="@layout/fragment_review_event_details">
+        <action
+                android:id="@+id/action_reviewEventDetailsFragment_to_fullEventDetails"
+                app:destination="@id/fullEventDetails"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/fullEventDetails"
+            android:name="com.victoweng.ciya2.FullEventDetails"
+            android:label="Full Event Details"
+            tools:layout="@layout/fragment_full_event_details">
+        <action
+                android:id="@+id/action_fullEventDetails_to_messageFragment"
+                app:destination="@id/messageFragment"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/currentlyAttendingFragment"
+            android:name="com.victoweng.ciya2.CurrentlyAttendingFragment"
+            tools:layout="@layout/fragment_currently_attending">
+        <action
+                android:id="@+id/action_currentlyAttendingFragment_to_fullEventDetails"
+                app:destination="@id/fullEventDetails"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/messagesListFragment"
+            android:name="com.victoweng.ciya2.MessagesListFragment"
+            android:label="no label"
+            tools:layout="@layout/fragment_messages_list">
+        <action
+                android:id="@+id/action_messagesListFragment_to_messageFragment"
+                app:destination="@id/messageFragment"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/messageFragment"
+            android:name="com.victoweng.ciya2.MessageFragment"
+            android:label="fragment_message"
+            tools:layout="@layout/fragment_message">
+        <action
+                android:id="@+id/action_messageFragment_to_fullEventDetails"
+                app:destination="@id/fullEventDetails"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/recentlyMetPlayersFragment"
+            android:name="com.victoweng.ciya2.RecentlyMetPlayersFragment"
+            android:label="fragment_recently_met_players"
+            tools:layout="@layout/fragment_recently_met_players"/>
+    <fragment
+            android:id="@+id/friendsListFragment"
+            android:name="com.victoweng.ciya2.FriendsListFragment"
+            android:label="fragment_friends_list"
+            tools:layout="@layout/fragment_friends_list"/>
+</navigation>
