@@ -1,4 +1,4 @@
-package com.victoweng.ciya2
+package com.victoweng.ciya2.ui
 
 
 import android.os.Bundle
@@ -6,15 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.victoweng.ciya2.R
 
-class FullEventDetails : Fragment() {
+
+class ReviewEventDetailsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_full_event_details, container, false)
+        return inflater.inflate(R.layout.fragment_review_event_details, container, false)
     }
 
 

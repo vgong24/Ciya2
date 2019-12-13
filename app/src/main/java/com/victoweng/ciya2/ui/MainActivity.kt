@@ -1,10 +1,10 @@
-package com.victoweng.ciya2
+package com.victoweng.ciya2.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.victoweng.ciya2.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,5 +20,7 @@ class MainActivity : AppCompatActivity() {
         setupWithNavController(bottom_nav_view, navController)
     }
 
-    override fun onSupportNavigateUp() = Navigation.findNavController(this, R.id.main_navigation_fragment).navigateUp()
+    override fun onSupportNavigateUp() = Navigation.findNavController(this,
+        R.id.main_navigation_fragment
+    ).navigateUp()
 }

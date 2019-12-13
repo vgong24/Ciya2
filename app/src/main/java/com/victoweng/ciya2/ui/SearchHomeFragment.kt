@@ -1,4 +1,4 @@
-package com.victoweng.ciya2
+package com.victoweng.ciya2.ui
 
 
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.victoweng.ciya2.R
 import kotlinx.android.synthetic.main.fragment_search_home.*
 
 

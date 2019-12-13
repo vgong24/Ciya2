@@ -7,7 +7,7 @@
 
     <fragment
             android:id="@+id/searchHomeFragment"
-            android:name="com.victoweng.ciya2.SearchHomeFragment"
+            android:name="com.victoweng.ciya2.ui.SearchHomeFragment"
             tools:layout="@layout/fragment_search_home">
         <action
                 android:id="@+id/action_searchHomeFragment_to_eventCreationFragment"
@@ -16,7 +16,7 @@
 
     <fragment
             android:id="@+id/eventCreationFragment"
-            android:name="com.victoweng.ciya2.EventCreationFragment"
+            android:name="com.victoweng.ciya2.ui.EventCreationFragment"
             tools:layout="@layout/fragment_event_creation">
         <action
                 android:id="@+id/action_eventCreationFragment_to_chooseLocationFragment"
@@ -25,8 +25,9 @@
 
     <fragment
             android:id="@+id/chooseLocationFragment"
-            android:name="com.victoweng.ciya2.ChooseLocationFragment"
+            android:name="com.victoweng.ciya2.ui.ChooseLocationFragment"
             tools:layout="@layout/fragment_choose_location">
+        <argument android:name="categoryType" app:argType="com.victoweng.ciya2.data.CategoryType"/>
         <action
                 android:id="@+id/action_chooseLocationFragment_to_enterDetailsFragment"
                 app:destination="@id/enterDetailsFragment"/>
@@ -34,8 +35,10 @@
 
     <fragment
             android:id="@+id/enterDetailsFragment"
-            android:name="com.victoweng.ciya2.EnterDetailsFragment"
+            android:name="com.victoweng.ciya2.ui.EnterDetailsFragment"
             tools:layout="@layout/fragment_enter_details">
+        <argument android:name="categoryType" app:argType="com.victoweng.ciya2.data.CategoryType"/>
+        <argument android:name="location" app:argType="com.victoweng.ciya2.data.Location"/>
         <action
                 android:id="@+id/action_enterDetailsFragment_to_reviewEventDetailsFragment"
                 app:destination="@id/reviewEventDetailsFragment"/>
@@ -43,7 +46,7 @@
 
     <fragment
             android:id="@+id/reviewEventDetailsFragment"
-            android:name="com.victoweng.ciya2.ReviewEventDetailsFragment"
+            android:name="com.victoweng.ciya2.ui.ReviewEventDetailsFragment"
             tools:layout="@layout/fragment_review_event_details">
         <action
                 android:id="@+id/action_reviewEventDetailsFragment_to_fullEventDetails"
@@ -52,7 +55,7 @@
 
     <fragment
             android:id="@+id/fullEventDetails"
-            android:name="com.victoweng.ciya2.FullEventDetails"
+            android:name="com.victoweng.ciya2.ui.FullEventDetails"
             android:label="Full Event Details"
             tools:layout="@layout/fragment_full_event_details">
         <action
@@ -62,7 +65,7 @@
 
     <fragment
             android:id="@+id/currentlyAttendingFragment"
-            android:name="com.victoweng.ciya2.CurrentlyAttendingFragment"
+            android:name="com.victoweng.ciya2.ui.CurrentlyAttendingFragment"
             tools:layout="@layout/fragment_currently_attending">
         <action
                 android:id="@+id/action_currentlyAttendingFragment_to_fullEventDetails"
@@ -71,7 +74,7 @@
 
     <fragment
             android:id="@+id/messagesListFragment"
-            android:name="com.victoweng.ciya2.MessagesListFragment"
+            android:name="com.victoweng.ciya2.ui.MessagesListFragment"
             android:label="no label"
             tools:layout="@layout/fragment_messages_list">
         <action
@@ -81,7 +84,7 @@
 
     <fragment
             android:id="@+id/messageFragment"
-            android:name="com.victoweng.ciya2.MessageFragment"
+            android:name="com.victoweng.ciya2.ui.MessageFragment"
             android:label="fragment_message"
             tools:layout="@layout/fragment_message">
         <action
@@ -91,12 +94,12 @@
 
     <fragment
             android:id="@+id/recentlyMetPlayersFragment"
-            android:name="com.victoweng.ciya2.RecentlyMetPlayersFragment"
+            android:name="com.victoweng.ciya2.ui.RecentlyMetPlayersFragment"
             android:label="fragment_recently_met_players"
             tools:layout="@layout/fragment_recently_met_players"/>
     <fragment
             android:id="@+id/friendsListFragment"
-            android:name="com.victoweng.ciya2.FriendsListFragment"
+            android:name="com.victoweng.ciya2.ui.FriendsListFragment"
             android:label="fragment_friends_list"
             tools:layout="@layout/fragment_friends_list"/>
 </navigation>
