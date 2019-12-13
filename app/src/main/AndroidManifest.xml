@@ -24,7 +24,7 @@
         </activity>
 
         <meta-data android:name="com.google.android.geo.API_KEY"
-                   android:value="AIzaSyAg26_3voosrEIf9KI-nyPVLjNnnXULVmo"/>
+                   android:value="@string/googleApiKey"/>
     </application>
 
 </manifest>
