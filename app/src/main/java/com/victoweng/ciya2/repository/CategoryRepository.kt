@@ -16,7 +16,7 @@ object CategoryRepository {
         return object : LiveData<List<CategoryType>>() {
             override fun onActive() {
                 super.onActive()
-                job?.let {
+                job.let {
                     CoroutineScope(IO + job).launch {
                         delay(1000)
                         withContext(Main) {

@@ -38,7 +38,7 @@
             android:name="com.victoweng.ciya2.ui.EnterDetailsFragment"
             tools:layout="@layout/fragment_enter_details">
         <argument android:name="categoryType" app:argType="com.victoweng.ciya2.data.CategoryType"/>
-        <argument android:name="location" app:argType="com.victoweng.ciya2.data.Location"/>
+        <argument android:name="location" app:argType="com.victoweng.ciya2.data.EventLocation"/>
         <action
                 android:id="@+id/action_enterDetailsFragment_to_reviewEventDetailsFragment"
                 app:destination="@id/reviewEventDetailsFragment"/>

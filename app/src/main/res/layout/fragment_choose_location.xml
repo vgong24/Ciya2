@@ -2,10 +2,36 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".ui.ChooseLocationFragment">
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".ui.ChooseLocationFragment">
 
+
+    <fragment
+            android:id="@+id/select_location_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="1.0">
+
+    </fragment>
+
+    <ImageView
+            android:layout_width="50dp"
+            android:layout_height="64dp"
+            android:foregroundGravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_map_marker"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintBottom_toTopOf="@+id/center_marker_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/select_location_map"/>
 
     <Button
             android:text="Next"
@@ -19,4 +45,29 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintVertical_bias="1.0"/>
+
+    <Button
+            android:text="Prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/back_button"
+            android:layout_margin="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/select_location_map"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="1"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/center_marker_guideline"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,13 +23,6 @@ android {
     }
 }
 
-ext{
-    lottie_version = "3.3.1"
-    androidX="1.1.0"
-    firebase = "17.2.1"
-    glide ="4.10.0"
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -48,6 +41,10 @@ dependencies {
     //Glide
     implementation "com.github.bumptech.glide:glide:$glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide"
+
+    //Maps
+    implementation "com.google.android.gms:play-services-maps:$gmaps"
+    implementation "com.google.android.gms:play-services-location:$gmaps"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
