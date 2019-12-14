@@ -15,6 +15,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.victoweng.ciya2.R
+import com.victoweng.ciya2.constants.EVENT_CATEGORY_TYPE
+import com.victoweng.ciya2.constants.EVENT_LOCATION
 import com.victoweng.ciya2.data.CategoryType
 import com.victoweng.ciya2.data.EventLocation
 import kotlinx.android.synthetic.main.fragment_choose_location.*
@@ -45,8 +47,8 @@ class ChooseLocationFragment : Fragment(), OnMapReadyCallback {
             eventLocation = EventLocation(latLng.latitude, latLng.longitude)
 
             val bundle = bundleOf(
-                "categoryType" to categoryType,
-                "location" to eventLocation
+                EVENT_CATEGORY_TYPE to categoryType,
+                EVENT_LOCATION to eventLocation
             )
 
             Navigation.findNavController(view)
