@@ -37,7 +37,7 @@ class SearchAdapter(val clickListener: (EventDetail) -> Unit) : RecyclerView.Ada
         fun onBind(eventDetail: EventDetail, clickListener: (EventDetail) -> Unit) {
 
             eventName.text = eventDetail.title
-            itemView.setOnClickListener { clickListener(eventDetail) } 
+            itemView.setOnClickListener { clickListener(eventDetail) }
         }
     }
 

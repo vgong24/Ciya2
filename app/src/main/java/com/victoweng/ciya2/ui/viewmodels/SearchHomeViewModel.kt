@@ -20,7 +20,10 @@ class SearchHomeViewModel : ViewModel() {
                         localEventLiveData.value = results
                 }
             }
+    }
 
+    fun goToEventDetailsScreen(eventDetail: EventDetail) {
+        
     }
 
 

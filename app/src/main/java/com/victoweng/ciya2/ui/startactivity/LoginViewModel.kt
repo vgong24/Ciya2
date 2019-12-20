@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.constants.FireRepo
 import com.victoweng.ciya2.data.UserProfile
+import com.victoweng.ciya2.repository.FireDatabaseRepo
 import com.victoweng.ciya2.util.ToastUtil
 
 class LoginViewModel(val context: Context, val navController: NavController) : ViewModel() {
@@ -32,9 +33,7 @@ class LoginViewModel(val context: Context, val navController: NavController) : V
    }
 
     fun userHasUserName() {
-        val database = FirebaseDatabase.getInstance()
-        val databaseRef = database.getReference("users")
-            .child(FireRepo.getCurrentUserId()!!)
+        FireDatabaseRepo.getUser(FireRepo.getCurrentUserId()!!)
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()){
@@ -46,7 +45,7 @@ class LoginViewModel(val context: Context, val navController: NavController) : V
                             navController.navigate(R.id.action_loginFragment_to_createUsernameFragment)
                         }
                     } else {
-                        Log.d("CLOWN", "doesnt exist...")
+                        Log.d("login", "doesnt exist...")
                         ToastUtil.show(context, "Create username...")
                         navController.navigate(R.id.action_loginFragment_to_createUsernameFragment)
                     }
@@ -56,7 +55,7 @@ class LoginViewModel(val context: Context, val navController: NavController) : V
 
                 }
             })
-        Log.d("CLOWN", "check databaseRef")
+        Log.d("login", "check databaseRef")
     }
 }
 

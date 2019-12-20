@@ -69,6 +69,7 @@ class SearchHomeFragment : Fragment() {
 
     fun eventItemClicked(eventDetails: EventDetail) {
         //Go to event details screen
+
         Log.d("CLOWN", "event item clicked!")
     }
 
