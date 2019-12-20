@@ -13,4 +13,5 @@ data class  EventDetail (val userCreator: UserProfile = UserProfile(),
     override fun toString(): String {
         return "${categoryType.name} title: $title"
     }
+
 }

@@ -20,8 +20,11 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 
 import com.victoweng.ciya2.R
+import com.victoweng.ciya2.constants.FireRepo
 import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment : Fragment() {
@@ -59,6 +62,7 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d("CLOWN", "onactivityResult " + requestCode)
         if (requestCode == RC_SIGN_IN) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
@@ -73,17 +77,13 @@ class LoginFragment : Fragment() {
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
-            if (it.isSuccessful) {
-                findNavController().navigate(R.id.searchHomeFragment)
-            }else {
-                Toast.makeText(context, "Sign in failed after auth " + it.exception?.message, Toast.LENGTH_SHORT).show()
-            }
+            viewModel.handleAuthentication(it)
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, LoginViewModelFactory(context!!, findNavController())).get(LoginViewModel::class.java)
         googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()

@@ -55,7 +55,7 @@
 
     <fragment
             android:id="@+id/fullEventDetails"
-            android:name="com.victoweng.ciya2.ui.FullEventDetails"
+            android:name="com.victoweng.ciya2.ui.FullEventDetailsFragment"
             android:label="Full Event Details"
             tools:layout="@layout/fragment_full_event_details">
         <action
@@ -106,5 +106,14 @@
             android:id="@+id/loginFragment"
             android:name="com.victoweng.ciya2.ui.startactivity.LoginFragment"
             android:label="login_fragment"
-            tools:layout="@layout/login_fragment"/>
+            tools:layout="@layout/login_fragment">
+        <action
+                android:id="@+id/action_loginFragment_to_createUsernameFragment"
+                app:destination="@id/createUsernameFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/createUsernameFragment"
+            android:name="com.victoweng.ciya2.ui.startactivity.CreateUsernameFragment"
+            android:label="fragment_create_username"
+            tools:layout="@layout/fragment_create_username"/>
 </navigation>

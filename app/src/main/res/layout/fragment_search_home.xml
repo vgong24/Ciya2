@@ -20,4 +20,11 @@
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintVertical_bias="1"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

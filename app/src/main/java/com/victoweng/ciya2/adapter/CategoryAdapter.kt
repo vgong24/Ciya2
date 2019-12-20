@@ -24,7 +24,7 @@ class CategoryAdapter(val clickListener: (CategoryType) -> Unit) : RecyclerView.
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
             is CategoryViewHolder -> {
-                holder.bind(categoryTypeList.get(position), clickListener)
+                holder.bind(categoryTypeList[position], clickListener)
             }
         }
     }

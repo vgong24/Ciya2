@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.ui.viewmodels.EnterDetailsViewModel
 import kotlinx.android.synthetic.main.fragment_enter_details.*
@@ -38,7 +39,7 @@ class EnterDetailsFragment : Fragment() {
             enterDetailsViewModel.setDescription(it.toString())
         })
         create_event_button.setOnClickListener {
-           enterDetailsViewModel.createEvent()
+           enterDetailsViewModel.createEvent(findNavController())
         }
     }
 

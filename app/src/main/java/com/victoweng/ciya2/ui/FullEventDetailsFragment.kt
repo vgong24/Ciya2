@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.victoweng.ciya2.R
 
-class FullEventDetails : Fragment() {
+class FullEventDetailsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
