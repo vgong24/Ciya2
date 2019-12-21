@@ -61,7 +61,7 @@ class ChooseLocationFragment : Fragment(), OnMapReadyCallback {
         val sydney = LatLng(-34.0, 151.0)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f))
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10.0f))
     }
 
 

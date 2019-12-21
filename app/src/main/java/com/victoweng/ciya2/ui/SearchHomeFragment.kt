@@ -69,7 +69,7 @@ class SearchHomeFragment : Fragment() {
 
     fun eventItemClicked(eventDetails: EventDetail) {
         //Go to event details screen
-
+        viewModel.goToEventDetailsScreen(eventDetails, findNavController())
         Log.d("CLOWN", "event item clicked!")
     }
 

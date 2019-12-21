@@ -10,9 +10,12 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.Timestamp
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.ui.viewmodels.EnterDetailsViewModel
+import com.victoweng.ciya2.util.date.DateTimeUtil
 import kotlinx.android.synthetic.main.fragment_enter_details.*
+import java.util.*
 
 class EnterDetailsFragment : Fragment() {
 
@@ -32,16 +35,31 @@ class EnterDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         enterDetailsViewModel.setArguments(arguments!!)
 
+        enterDetailsViewModel.getDateLiveData().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            event_date_and_time.setText(DateTimeUtil.asString(it.build()))
+        })
+
         event_title.addTextChangedListener(afterTextChanged = {
             enterDetailsViewModel.setTitle(it.toString())
         })
         description_text.addTextChangedListener(afterTextChanged = {
             enterDetailsViewModel.setDescription(it.toString())
         })
+        event_date_and_time.setOnClickListener {
+            enterDetailsViewModel.showDatePicker(context!!)
+        }
+
         create_event_button.setOnClickListener {
            enterDetailsViewModel.createEvent(findNavController())
         }
     }
 
+    fun showDatePicker() {
+
+    }
+
+    fun showTimePicker() {
+
+    }
 
 }

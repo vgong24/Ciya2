@@ -1,5 +1,6 @@
 package com.victoweng.ciya2.data
 
+import com.google.firebase.Timestamp
 import java.io.Serializable
 
 data class  EventDetail (val userCreator: UserProfile = UserProfile(),
@@ -7,7 +8,7 @@ data class  EventDetail (val userCreator: UserProfile = UserProfile(),
                          val eventLocation: EventLocation = EventLocation(),
                          val title: String = "no title",
                          val description: String = "no description",
-                         val startDate: String= "0",
+                         val timestamp: Timestamp = Timestamp.now(),
                          val participants: UserProfiles = UserProfiles()) : Serializable {
 
     override fun toString(): String {

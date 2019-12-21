@@ -12,6 +12,9 @@
         <action
                 android:id="@+id/action_searchHomeFragment_to_eventCreationFragment"
                 app:destination="@id/eventCreationFragment"/>
+        <action
+                android:id="@+id/action_searchHomeFragment_to_fullEventDetails"
+                app:destination="@id/fullEventDetails"/>
     </fragment>
 
     <fragment
@@ -58,6 +61,7 @@
             android:name="com.victoweng.ciya2.ui.FullEventDetailsFragment"
             android:label="Full Event Details"
             tools:layout="@layout/fragment_full_event_details">
+        <argument android:name="eventDetails" app:argType="com.victoweng.ciya2.data.EventDetail"/>
         <action
                 android:id="@+id/action_fullEventDetails_to_messageFragment"
                 app:destination="@id/messageFragment"/>

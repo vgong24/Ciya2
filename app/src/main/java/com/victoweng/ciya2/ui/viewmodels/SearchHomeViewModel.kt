@@ -1,8 +1,11 @@
 package com.victoweng.ciya2.ui.viewmodels
 
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.victoweng.ciya2.R
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.repository.FireStoreRepo
 
@@ -22,8 +25,11 @@ class SearchHomeViewModel : ViewModel() {
             }
     }
 
-    fun goToEventDetailsScreen(eventDetail: EventDetail) {
-        
+    fun goToEventDetailsScreen(eventDetail: EventDetail, navController: NavController) {
+        val bundle = bundleOf(
+            "eventDetail" to eventDetail
+        )
+        navController.navigate(R.id.action_searchHomeFragment_to_fullEventDetails, bundle)
     }
 
 
