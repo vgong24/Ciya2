@@ -42,7 +42,7 @@ class EventCreationFragment : Fragment() {
             adapter = categoryAdapter
         }
 
-        viewModel.categoryLiveData.observe(this, Observer {
+        viewModel.categoryLiveData.observe(viewLifecycleOwner, Observer {
             types -> categoryAdapter.updateList(types)
             println("debug: list retrieved " + types.size)
         })

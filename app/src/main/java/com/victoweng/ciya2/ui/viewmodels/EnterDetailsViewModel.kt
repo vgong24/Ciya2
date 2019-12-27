@@ -17,10 +17,7 @@ import com.victoweng.ciya2.R
 import com.victoweng.ciya2.constants.EVENT_CATEGORY_TYPE
 import com.victoweng.ciya2.constants.EVENT_LOCATION
 import com.victoweng.ciya2.constants.FireRepo
-import com.victoweng.ciya2.data.CategoryType
-import com.victoweng.ciya2.data.EventDetail
-import com.victoweng.ciya2.data.EventLocation
-import com.victoweng.ciya2.data.UserProfile
+import com.victoweng.ciya2.data.*
 import com.victoweng.ciya2.repository.FireStoreRepo
 import com.victoweng.ciya2.util.ToastUtil
 import com.victoweng.ciya2.util.date.DateBuilder
@@ -114,9 +111,11 @@ class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, T
     }
 
     fun getEventDetail() : EventDetail {
-        val user = UserProfile(FireRepo.getCurrentUserId()!!, FireRepo.getCurrentUser()!!.email!!, "username")
+        val user = UserProfile(FireRepo.getCurrentUserId()!!, FireRepo.getCurrentUser()!!.email!!, FireRepo.getCurrentUser()!!.displayName!!)
         val date = Timestamp(getDateLiveData().value!!.build())
-        return EventDetail(user, category, location, titleLiveData.value!!, descriptionLiveData.value!!, date)
+        val userList = UserProfiles()
+        userList.addUser(user)
+        return EventDetail(user, category, location, titleLiveData.value!!, descriptionLiveData.value!!, date, participants = userList)
     }
 
     fun createEvent(navController: NavController) {

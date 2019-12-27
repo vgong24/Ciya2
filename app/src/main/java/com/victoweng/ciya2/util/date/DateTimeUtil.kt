@@ -10,7 +10,7 @@ object DateTimeUtil {
     fun getCalendarInstance() = Calendar.getInstance()
 
     fun asString(date: Date) : String {
-        val dateFormat = SimpleDateFormat("dd/MM/yy 'at' h:mm a", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("EEE MMM dd yy 'at' h:mm a", Locale.getDefault())
         return dateFormat.format(date)
     }
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.victoweng.ciya2.R
+import com.victoweng.ciya2.constants.EVENT_DETAIL
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.repository.FireStoreRepo
 
@@ -27,7 +28,7 @@ class SearchHomeViewModel : ViewModel() {
 
     fun goToEventDetailsScreen(eventDetail: EventDetail, navController: NavController) {
         val bundle = bundleOf(
-            "eventDetail" to eventDetail
+            EVENT_DETAIL to eventDetail
         )
         navController.navigate(R.id.action_searchHomeFragment_to_fullEventDetails, bundle)
     }
