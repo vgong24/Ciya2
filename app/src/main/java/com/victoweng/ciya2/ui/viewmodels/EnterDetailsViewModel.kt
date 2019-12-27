@@ -18,6 +18,7 @@ import com.victoweng.ciya2.constants.EVENT_CATEGORY_TYPE
 import com.victoweng.ciya2.constants.EVENT_LOCATION
 import com.victoweng.ciya2.constants.FireRepo
 import com.victoweng.ciya2.data.*
+import com.victoweng.ciya2.repository.EventCreationRepo
 import com.victoweng.ciya2.repository.FireStoreRepo
 import com.victoweng.ciya2.util.ToastUtil
 import com.victoweng.ciya2.util.date.DateBuilder
@@ -122,7 +123,7 @@ class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, T
         if(!allFieldsFilled()) {
             return
         }
-        val task = FireStoreRepo.createEvent(getEventDetail())
+        val task = EventCreationRepo.createEvent(getEventDetail())
         task?.addOnCompleteListener {
             Log.d("debug", "change to search home")
             navController.navigate(R.id.searchHomeFragment)

@@ -44,9 +44,11 @@ class FullEventDetailsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         Log.d("CLOWN", "event location: " + viewModel.eventDetailLiveData.value!!.eventLocation.toString())
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(viewModel.getEventLocation()))
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(13f))
-        googleMap.uiSettings.isScrollGesturesEnabled = false
+        viewModel.eventDetailLiveData.observe(viewLifecycleOwner, Observer {
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(it.eventLocation.toLatLng()))
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(10f))
+            googleMap.uiSettings.isScrollGesturesEnabled = false
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,7 +71,7 @@ class FullEventDetailsFragment : Fragment(), OnMapReadyCallback {
     private fun observeData() {
         viewModel.eventDetailLiveData.observe(viewLifecycleOwner, Observer {
             event_title.text = it.title
-            event_description.text = it.description
+            event_description.text = it.description + " " + it.eventLocation.toString()
             event_time.text = it.timeStampFormatted()
             attendeeAdapter.setUsers(it.participants.userList)
         })

@@ -19,15 +19,7 @@ object FireStoreRepo {
         return ref
     }
 
-    fun createEvent(eventDetail: EventDetail) : Task<Void>? {
-        val ref = fireStore.collection("eventDetails").document();
-        val hostRef = fireStore.collection("users").document(FireRepo.getCurrentUserId()!!)
-        val task = fireStore.runBatch {
-            writeBatch -> writeBatch.set(ref, eventDetail)
-            writeBatch.update(ref, "host", hostRef)
-        }
-        return task
-    }
+
 
     fun fetchLocalEvents() : Task<QuerySnapshot>? {
         return fireStore.collection("eventDetails").get()

@@ -54,12 +54,4 @@ class EnterDetailsFragment : Fragment() {
         }
     }
 
-    fun showDatePicker() {
-
-    }
-
-    fun showTimePicker() {
-
-    }
-
 }
