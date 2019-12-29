@@ -7,6 +7,7 @@ const val EVENT_DESCRIPTION = "eventDescription"
 const val EVENT_DATE = "eventDate"
 const val EVENT_PLAYER_RANGE = "eventPlayerRange"
 const val EVENT_DETAIL = "eventDetail"
+const val EVENT_GEO_FIRE = "eventGeoPath"
 
 //FireBase constants
 const val FIRE_EVENT_DETAILS = "eventDetail"

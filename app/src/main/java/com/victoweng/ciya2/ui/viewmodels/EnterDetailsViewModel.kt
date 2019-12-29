@@ -126,7 +126,7 @@ class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, T
         val task = EventCreationRepo.createEvent(getEventDetail())
         task?.addOnCompleteListener {
             Log.d("debug", "change to search home")
-            navController.navigate(R.id.searchHomeFragment)
+            navController.navigate(R.id.action_enterDetailsFragment_to_searchHomeFragment)
         }
 
     }

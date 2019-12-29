@@ -1,5 +1,6 @@
 package com.victoweng.ciya2.ui.viewmodels
 
+import android.location.Location
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,13 +18,19 @@ class SearchHomeViewModel : ViewModel() {
         return localEventLiveData
     }
 
-    fun fetchLocalEvents() {
-            FireStoreRepo.fetchLocalEvents()!!.addOnSuccessListener {document ->
-                if (document != null) {
-                    val results = document.toObjects(EventDetail::class.java)
-                        localEventLiveData.value = results
-                }
-            }
+    fun fetchLocalEvents(location: Location) {
+            FireStoreRepo.fetchLocalEvents(location, {list -> updateLocalEvents(list) })
+
+//        !!.addOnSuccessListener {document ->
+//                if (document != null) {
+//                    val results = document.toObjects(EventDetail::class.java)
+//                        localEventLiveData.value = results
+//                }
+//            }
+    }
+
+    fun updateLocalEvents(result: MutableList<EventDetail>) {
+        localEventLiveData.value = result
     }
 
     fun goToEventDetailsScreen(eventDetail: EventDetail, navController: NavController) {

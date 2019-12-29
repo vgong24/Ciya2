@@ -45,6 +45,11 @@
         <action
                 android:id="@+id/action_enterDetailsFragment_to_reviewEventDetailsFragment"
                 app:destination="@id/reviewEventDetailsFragment"/>
+        <action
+            app:popUpTo="@id/searchHomeFragment"
+            app:popUpToInclusive="true"
+            android:id="@+id/action_enterDetailsFragment_to_searchHomeFragment"
+            app:destination="@id/searchHomeFragment" />
     </fragment>
 
     <fragment
