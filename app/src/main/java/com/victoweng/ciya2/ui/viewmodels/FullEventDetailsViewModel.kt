@@ -13,7 +13,7 @@ class FullEventDetailsViewModel : ViewModel() {
     val eventDetailLiveData = MutableLiveData<EventDetail>()
 
     fun getEventDetailsFrom(bundle: Bundle) {
-        val detail = bundle.getSerializable(EVENT_DETAIL) as EventDetail
+        val detail = bundle.getParcelable(EVENT_DETAIL) as EventDetail
         updateEventDetails(detail)
     }
 

@@ -116,6 +116,13 @@ class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, T
         val date = Timestamp(getDateLiveData().value!!.build())
         val userList = UserProfiles()
         userList.addUser(user)
+        userList.addUser(user)
+        userList.addUser(user)
+        userList.addUser(user)
+        userList.addUser(user)
+        userList.addUser(user)
+        userList.addUser(user)
+        userList.addUser(user)
         return EventDetail(user, category, location, titleLiveData.value!!, descriptionLiveData.value!!, date, participants = userList)
     }
 

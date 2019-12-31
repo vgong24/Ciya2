@@ -63,7 +63,7 @@ class ChooseLocationFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.select_location_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        categoryType = arguments!!.getSerializable("categoryType") as CategoryType
+        categoryType = arguments!!.getParcelable("categoryType") as CategoryType
 
         location_next_button.setOnClickListener {
             val latLng = googleMap.cameraPosition.target

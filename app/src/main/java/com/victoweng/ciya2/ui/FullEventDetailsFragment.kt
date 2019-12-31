@@ -3,25 +3,21 @@ package com.victoweng.ciya2.ui
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.AttendeeAdapter
-import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.ui.viewmodels.FullEventDetailsViewModel
-import com.victoweng.ciya2.util.date.DateTimeUtil
 import kotlinx.android.synthetic.main.fragment_full_event_details.*
 
 class FullEventDetailsFragment : Fragment(), OnMapReadyCallback {
