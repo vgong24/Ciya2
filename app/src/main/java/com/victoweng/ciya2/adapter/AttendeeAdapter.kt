@@ -11,7 +11,7 @@ import com.victoweng.ciya2.constants.FireRepo
 import com.victoweng.ciya2.data.UserProfile
 import kotlinx.android.synthetic.main.attendee_item.view.*
 
-class AttendeeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+open class AttendeeAdapter(val clickListener: (UserProfile) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val TAG = AttendeeAdapter::class.java.canonicalName
     private val users = MutableLiveData<List<UserProfile>>(ArrayList())
@@ -29,7 +29,7 @@ class AttendeeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
-            is AttendeeViewHolder -> holder.onBind(users.value!!.get(position))
+            is AttendeeViewHolder -> holder.onBind(users.value!!.get(position), clickListener)
         }
     }
 
@@ -37,15 +37,15 @@ class AttendeeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return users.value!!.size
     }
 
-    class AttendeeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    internal class AttendeeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val profileImage = view.profile_image
         val userNameText = view.username_textview
         val addButton = view.add_friend
 
-        fun onBind(userProfile: UserProfile) {
+        fun onBind(userProfile: UserProfile, clickListener: (UserProfile) -> Unit) {
             userNameText.text = userProfile.userName
-            Log.d(TAG, "bound usernametext " + userProfile.userName)
             addButton.isEnabled = FireRepo.getCurrentUserId() != userProfile.uid
+            addButton.setOnClickListener { clickListener(userProfile) }
         }
 
     }

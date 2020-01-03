@@ -31,7 +31,7 @@ class FullEventDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     val attendeeAdapter : AttendeeAdapter by lazy {
-        AttendeeAdapter()
+        AttendeeAdapter{userProfile ->  viewModel.onAddButtonClicked(userProfile)}
     }
 
     override fun onCreateView(

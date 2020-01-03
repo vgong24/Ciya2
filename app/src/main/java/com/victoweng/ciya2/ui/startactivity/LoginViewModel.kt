@@ -40,7 +40,7 @@ class LoginViewModel(val context: Context, val navController: NavController) : V
                     if (dataSnapshot.exists()){
                         val userProfile = dataSnapshot.getValue(UserProfile::class.java)
                         if (userProfile?.userName != null) {
-                            navController.navigate(R.id.searchHomeFragment)
+                            navController.navigate(R.id.action_loginFragment_to_searchHomeFragment)
                         } else {
                             ToastUtil.show(context, "Create username...")
                             navController.navigate(R.id.action_loginFragment_to_createUsernameFragment)

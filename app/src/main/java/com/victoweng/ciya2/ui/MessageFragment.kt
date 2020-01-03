@@ -33,8 +33,9 @@ class MessageFragment : Fragment() {
                 .requestEmail()
                 .build()
             val googleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
-            googleSignInClient.signOut()
-            findNavController().navigate(R.id.searchHomeFragment)
+            googleSignInClient.signOut().addOnSuccessListener {
+                findNavController().navigate(R.id.action_messageFragment_to_searchHomeFragment)
+            }
         }
     }
 

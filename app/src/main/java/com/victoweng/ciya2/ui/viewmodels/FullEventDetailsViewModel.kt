@@ -8,7 +8,9 @@ import com.victoweng.ciya2.constants.EVENT_DETAIL
 import com.victoweng.ciya2.constants.FireRepo
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.data.EventLocation
+import com.victoweng.ciya2.data.UserProfile
 import com.victoweng.ciya2.repository.FireStoreRepo
+import com.victoweng.ciya2.repository.FriendListRepo
 import com.victoweng.ciya2.ui.custom.JoinButton
 
 class FullEventDetailsViewModel : ViewModel() {
@@ -80,6 +82,11 @@ class FullEventDetailsViewModel : ViewModel() {
             }.addOnFailureListener {
                 Log.d(TAG, "failed to remove " + it.message)
             }
+    }
 
+    fun onAddButtonClicked(userProfile: UserProfile) {
+        FriendListRepo.sendFriendRequest(userProfile) {
+            Log.d("CLOWNB", "User ADDEDL $it")
+        }
     }
 }

@@ -33,7 +33,8 @@
                 android:scaleType="fitCenter"
                 app:layout_constraintDimensionRatio="1:1"
                 android:layout_width="0dp"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp"
+                android:contentDescription="here" />
 
             <TextView
                 android:id="@+id/username_textview"
@@ -70,7 +71,6 @@
                 android:orientation="vertical"
                 android:layout_height="wrap_content"
                 app:layout_constraintGuide_percent=".75"/>
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

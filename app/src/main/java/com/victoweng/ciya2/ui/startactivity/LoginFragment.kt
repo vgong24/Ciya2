@@ -46,7 +46,7 @@ class LoginFragment : Fragment() {
         val navController = findNavController()
         if (FirebaseAuth.getInstance().currentUser != null) {
             Log.d(TAG, "we are logged in")
-            navController.navigate(R.id.searchHomeFragment)
+            navController.navigate(R.id.action_loginFragment_to_searchHomeFragment)
         } else {
             Log.d(TAG, "not logged in")
         }
@@ -91,5 +91,4 @@ class LoginFragment : Fragment() {
             .build()
         googleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
     }
-
 }

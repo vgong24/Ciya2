@@ -15,6 +15,8 @@
         <action
                 android:id="@+id/action_searchHomeFragment_to_fullEventDetails"
                 app:destination="@id/fullEventDetails"/>
+
+
     </fragment>
 
     <fragment
@@ -46,7 +48,7 @@
                 android:id="@+id/action_enterDetailsFragment_to_reviewEventDetailsFragment"
                 app:destination="@id/reviewEventDetailsFragment"/>
         <action
-            app:popUpTo="@id/searchHomeFragment"
+            app:popUpTo="@id/enterDetailsFragment"
             app:popUpToInclusive="true"
             android:id="@+id/action_enterDetailsFragment_to_searchHomeFragment"
             app:destination="@id/searchHomeFragment" />
@@ -99,6 +101,11 @@
         <action
                 android:id="@+id/action_messageFragment_to_fullEventDetails"
                 app:destination="@id/fullEventDetails"/>
+        <action
+            android:id="@+id/action_messageFragment_to_searchHomeFragment"
+            app:popUpTo="@id/messageFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/searchHomeFragment" />
     </fragment>
 
     <fragment
@@ -119,6 +126,11 @@
         <action
                 android:id="@+id/action_loginFragment_to_createUsernameFragment"
                 app:destination="@id/createUsernameFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_searchHomeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/searchHomeFragment" />
     </fragment>
     <fragment
             android:id="@+id/createUsernameFragment"
