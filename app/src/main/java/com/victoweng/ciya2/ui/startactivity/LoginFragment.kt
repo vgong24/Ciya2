@@ -28,6 +28,7 @@ import com.victoweng.ciya2.constants.FireRepo
 import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment : Fragment() {
+    val TAG = LoginFragment::class.java.canonicalName
     private val RC_SIGN_IN = 1
     private lateinit var viewModel: LoginViewModel
     lateinit var googleSignInClient: GoogleSignInClient
@@ -44,10 +45,10 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navController = findNavController()
         if (FirebaseAuth.getInstance().currentUser != null) {
-            Log.d("CLOWN", "we are logged in")
+            Log.d(TAG, "we are logged in")
             navController.navigate(R.id.searchHomeFragment)
         } else {
-            Log.d("CLOWN", "not logged in")
+            Log.d(TAG, "not logged in")
         }
 
         sign_in_button.setOnClickListener {
@@ -62,7 +63,7 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("CLOWN", "onactivityResult " + requestCode)
+        Log.d(TAG, "onactivityResult " + requestCode)
         if (requestCode == RC_SIGN_IN) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {

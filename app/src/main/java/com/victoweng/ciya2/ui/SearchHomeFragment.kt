@@ -58,10 +58,10 @@ class SearchHomeFragment : Fragment() {
         //check authentication
         val navController = findNavController()
         if (FirebaseAuth.getInstance().currentUser == null) {
-            Log.d("CLOWN", "Switchinig to loginFragment cuz we not logged in")
+            Log.d(TAG, "Switchinig to loginFragment cuz we not logged in")
             navController.navigate(R.id.loginFragment)
         } else {
-            Log.d("CLOWN", "logged in...")
+            Log.d(TAG, "logged in...")
         }
 
         checkLocationPermissions()
@@ -129,12 +129,12 @@ class SearchHomeFragment : Fragment() {
     fun eventItemClicked(eventDetails: EventDetail) {
         //Go to event details screen
         viewModel.goToEventDetailsScreen(eventDetails, findNavController())
-        Log.d("CLOWN", "event item clicked!")
+        Log.d(TAG, "event item clicked!")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("CLOWN", "SearchHomeFragment ondestroy")
+        Log.d(TAG, "SearchHomeFragment ondestroy")
     }
 
 

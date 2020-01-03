@@ -23,9 +23,10 @@ import com.victoweng.ciya2.util.ToastUtil
 
 class LoginViewModel(val context: Context, val navController: NavController) : ViewModel() {
 
+    val TAG = LoginViewModel::class.java.canonicalName
    fun handleAuthentication(result : Task<AuthResult>) {
        if (result.isSuccessful) {
-           Log.d("CLOWN", "is successful")
+           Log.d(TAG, "is successful")
            userHasUserName()
        }else {
            Toast.makeText(context, "Sign in failed after auth " + result.exception?.message, Toast.LENGTH_SHORT).show()
@@ -45,7 +46,7 @@ class LoginViewModel(val context: Context, val navController: NavController) : V
                             navController.navigate(R.id.action_loginFragment_to_createUsernameFragment)
                         }
                     } else {
-                        Log.d("login", "doesnt exist...")
+                        Log.d(TAG, "doesnt exist...")
                         ToastUtil.show(context, "Create username...")
                         navController.navigate(R.id.action_loginFragment_to_createUsernameFragment)
                     }
@@ -55,7 +56,7 @@ class LoginViewModel(val context: Context, val navController: NavController) : V
 
                 }
             })
-        Log.d("login", "check databaseRef")
+        Log.d(TAG, "check databaseRef")
     }
 }
 

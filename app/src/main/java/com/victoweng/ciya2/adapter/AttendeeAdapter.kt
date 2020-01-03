@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.attendee_item.view.*
 
 class AttendeeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    val TAG = AttendeeAdapter::class.java.canonicalName
     private val users = MutableLiveData<List<UserProfile>>(ArrayList())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -21,7 +22,7 @@ class AttendeeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun setUsers(userList: List<UserProfile>) {
-        Log.d("CLOWN", "setusers " + userList.size)
+        Log.d(TAG, "setusers " + userList.size)
         users.value = userList
         notifyDataSetChanged()
     }
@@ -43,7 +44,7 @@ class AttendeeAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun onBind(userProfile: UserProfile) {
             userNameText.text = userProfile.userName
-            Log.d("CLOWN", "bound usernametext " + userProfile.userName)
+            Log.d(TAG, "bound usernametext " + userProfile.userName)
             addButton.isEnabled = FireRepo.getCurrentUserId() != userProfile.uid
         }
 

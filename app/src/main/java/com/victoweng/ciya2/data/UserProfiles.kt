@@ -9,4 +9,11 @@ data class UserProfiles (val userList: MutableList<UserProfile> = mutableListOf(
     fun addUser(userProfile: UserProfile) {
         userList.add(userProfile)
     }
+
+    fun removeUser(userProfile: UserProfile) {
+        userList.remove(userProfile)
+    }
+
+    fun containsUser(id: String) = userList.any { it.uid == id }
+
 }

@@ -6,13 +6,16 @@ import com.victoweng.ciya2.util.date.DateTimeUtil
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class EventDetail (val userCreator: UserProfile = UserProfile(),
-                         val categoryType: CategoryType = CategoryType(),
-                         val eventLocation: EventLocation = EventLocation(),
-                         val title: String = "no title",
-                         val description: String = "no description",
-                         val timestamp: Timestamp = Timestamp.now(),
-                         val participants: UserProfiles = UserProfiles()) : Parcelable {
+data class EventDetail(
+    var eventId: String = "",
+    val userCreator: UserProfile = UserProfile(),
+    val categoryType: CategoryType = CategoryType(),
+    val eventLocation: EventLocation = EventLocation(),
+    val title: String = "no title",
+    val description: String = "no description",
+    val timestamp: Timestamp = Timestamp.now(),
+    val participants: UserProfiles = UserProfiles()
+) : Parcelable {
 
     override fun toString(): String {
         return "${categoryType.name} title: $title"

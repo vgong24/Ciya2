@@ -10,5 +10,5 @@ const val EVENT_DETAIL = "eventDetail"
 const val EVENT_GEO_FIRE = "eventGeoPath"
 
 //FireBase constants
-const val FIRE_EVENT_DETAILS = "eventDetail"
+const val FIRE_EVENT_DETAILS = "eventDetails"
 const val FIRE_USER = "users"

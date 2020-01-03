@@ -11,6 +11,6 @@ object FireRepo {
 
     fun getCurrentUserId() = getCurrentUser()?.uid
 
-    fun createCurrentUserProfile() = UserProfile(getCurrentUserId()!!, getCurrentUser()!!.displayName!!)
+    fun createCurrentUserProfile() = UserProfile(uid = getCurrentUserId()!!, userName = getCurrentUser()!!.displayName!!)
 
 }

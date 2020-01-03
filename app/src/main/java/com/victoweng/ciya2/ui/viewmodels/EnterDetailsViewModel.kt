@@ -27,6 +27,7 @@ import java.time.LocalDateTime
 
 class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    val TAG = EnterDetailsViewModel::class.java.canonicalName
     val titleLiveData = MutableLiveData<String>("")
     val descriptionLiveData = MutableLiveData<String>("")
     val eventDateLiveData = MutableLiveData<DateBuilder>()
@@ -52,7 +53,7 @@ class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, T
 
     fun showDatePicker(context: Context) {
         val date = getDateLiveData().value!!
-        Log.d("CLOWN", "showDatePicker year: ${date.getYear()}")
+        Log.d(TAG, "showDatePicker year: ${date.getYear()}")
         val datePickerDialog = DatePickerDialog(context, this, date.getYear(), date.getMonth(), date.getDay())
         datePickerDialog.datePicker.minDate = DateTimeUtil.getMinDate()
         datePickerDialog.show()
@@ -116,14 +117,7 @@ class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, T
         val date = Timestamp(getDateLiveData().value!!.build())
         val userList = UserProfiles()
         userList.addUser(user)
-        userList.addUser(user)
-        userList.addUser(user)
-        userList.addUser(user)
-        userList.addUser(user)
-        userList.addUser(user)
-        userList.addUser(user)
-        userList.addUser(user)
-        return EventDetail(user, category, location, titleLiveData.value!!, descriptionLiveData.value!!, date, participants = userList)
+        return EventDetail("", user, category, location, titleLiveData.value!!, descriptionLiveData.value!!, date, participants = userList)
     }
 
     fun createEvent(navController: NavController) {
@@ -132,7 +126,7 @@ class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, T
         }
         val task = EventCreationRepo.createEvent(getEventDetail())
         task?.addOnCompleteListener {
-            Log.d("debug", "change to search home")
+            Log.d(TAG, "change to search home")
             navController.navigate(R.id.action_enterDetailsFragment_to_searchHomeFragment)
         }
 
