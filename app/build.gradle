@@ -51,6 +51,9 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics:$firebase"
     implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.google.firebase:firebase-firestore:21.3.1'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+    //FCM//
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 
     //Auth
     implementation "com.firebaseui:firebase-ui-auth:4.3.1"
