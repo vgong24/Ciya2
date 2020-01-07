@@ -1,10 +1,9 @@
 package com.victoweng.ciya2.repository
 
 import android.util.Log
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.victoweng.ciya2.constants.FIRE_FRIEND_LIST
-import com.victoweng.ciya2.constants.FireRepo
+import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.friend.FriendRequest
 import com.victoweng.ciya2.data.UserProfile
 import com.victoweng.ciya2.data.friend.FRequestIds
@@ -15,7 +14,7 @@ object FriendListRepo {
 
     fun sendFriendRequest(friendProfile: UserProfile, resultCallback: (Boolean) -> Unit) {
         var friendlistRef = FireStoreRepo.fireStore.collection(FIRE_FRIEND_LIST)
-        friendlistRef.whereEqualTo("sender.uid", FireRepo.getCurrentUserId()!!)
+        friendlistRef.whereEqualTo("sender.uid", FireAuth.getCurrentUserId()!!)
             .whereEqualTo("receiver.uid", friendProfile.uid)
             .get()
             .addOnSuccessListener {
@@ -35,7 +34,7 @@ object FriendListRepo {
     ) {
         var userRef = friendlistRef.document()
         var friendRef = friendlistRef.document()
-        var currentUser = FireRepo.createCurrentUserProfile()
+        var currentUser = FireAuth.createCurrentUserProfile()
         var requestIds = FRequestIds(userRef.id, friendRef.id)
 
         FireStoreRepo.fireStore.runBatch { writeBatch ->
@@ -89,7 +88,7 @@ object FriendListRepo {
 
     fun fetchFriendsList(listCallback:(MutableList<FriendRequest>) -> Unit) {
         val ref = FireStoreRepo.fireStore.collection(FIRE_FRIEND_LIST)
-        ref.whereEqualTo("sender.uid", FireRepo.getCurrentUserId()!!)
+        ref.whereEqualTo("sender.uid", FireAuth.getCurrentUserId()!!)
             .get()
             .addOnSuccessListener {
                 var friendList = it.toObjects(FriendRequest::class.java)

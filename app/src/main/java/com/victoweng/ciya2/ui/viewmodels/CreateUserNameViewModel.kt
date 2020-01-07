@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.*
-import com.victoweng.ciya2.constants.FireRepo
+import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.UserProfile
 import com.victoweng.ciya2.repository.FireStoreRepo
 import com.victoweng.ciya2.util.ToastUtil
@@ -26,10 +26,10 @@ class CreateUserNameViewModel(val context: Context) : ViewModel() {
             .runTransaction(object : Transaction.Handler {
                 override fun doTransaction(mutableData: MutableData): Transaction.Result {
                     if (mutableData.getValue() == null) {
-                        mutableData.value = FireRepo.getCurrentUserId()
+                        mutableData.value = FireAuth.getCurrentUserId()
                         val userProfile =
-                            UserProfile(FireRepo.getCurrentUserId()!!, FireRepo.getCurrentUser()?.email!!, userName)
-                        usersRef.child(FireRepo.getCurrentUserId()!!)
+                            UserProfile(FireAuth.getCurrentUserId()!!, FireAuth.getCurrentUser()?.email!!, userName)
+                        usersRef.child(FireAuth.getCurrentUserId()!!)
                             .setValue(userProfile)
                             .addOnSuccessListener {
                                 Log.d(TAG, "user with has been added under username $userName")

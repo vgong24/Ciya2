@@ -5,7 +5,6 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.lifecycle.LiveData
@@ -16,14 +15,12 @@ import com.google.firebase.Timestamp
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.constants.EVENT_CATEGORY_TYPE
 import com.victoweng.ciya2.constants.EVENT_LOCATION
-import com.victoweng.ciya2.constants.FireRepo
+import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.*
 import com.victoweng.ciya2.repository.EventCreationRepo
-import com.victoweng.ciya2.repository.FireStoreRepo
 import com.victoweng.ciya2.util.ToastUtil
 import com.victoweng.ciya2.util.date.DateBuilder
 import com.victoweng.ciya2.util.date.DateTimeUtil
-import java.time.LocalDateTime
 
 class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
@@ -113,7 +110,7 @@ class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, T
     }
 
     fun getEventDetail() : EventDetail {
-        val user = UserProfile(FireRepo.getCurrentUserId()!!, FireRepo.getCurrentUser()!!.email!!, FireRepo.getCurrentUser()!!.displayName!!)
+        val user = UserProfile(FireAuth.getCurrentUserId()!!, FireAuth.getCurrentUser()!!.email!!, FireAuth.getCurrentUser()!!.displayName!!)
         val date = Timestamp(getDateLiveData().value!!.build())
         val userList = UserProfiles()
         userList.addUser(user)

@@ -3,20 +3,15 @@ package com.victoweng.ciya2.ui.startactivity
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.victoweng.ciya2.R
-import com.victoweng.ciya2.constants.FireRepo
+import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.UserProfile
 import com.victoweng.ciya2.repository.FireDatabaseRepo
 import com.victoweng.ciya2.util.ToastUtil
@@ -34,7 +29,7 @@ class LoginViewModel(val context: Context, val navController: NavController) : V
    }
 
     fun userHasUserName() {
-        FireDatabaseRepo.getUser(FireRepo.getCurrentUserId()!!)
+        FireDatabaseRepo.getUser(FireAuth.getCurrentUserId()!!)
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()){

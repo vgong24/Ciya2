@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.victoweng.ciya2.constants.EVENT_DETAIL
-import com.victoweng.ciya2.constants.FireRepo
+import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.data.EventLocation
 import com.victoweng.ciya2.data.UserProfile
@@ -32,7 +32,7 @@ class FullEventDetailsViewModel : ViewModel() {
     fun getEventLocation() = locationLiveData.value!!.toLatLng()
 
     fun setupJoinButton(join_button: JoinButton, eventDetail: EventDetail) {
-        if(isHost(eventDetail, FireRepo.getCurrentUserId()!!)) {
+        if(isHost(eventDetail, FireAuth.getCurrentUserId()!!)) {
             join_button.setRequestState(JoinButton.RequestState.HOST)
         } else {
             join_button.setRequestState(if(isUserCurrentlyAttendingEvent(eventDetail)) JoinButton.RequestState.LEAVE else JoinButton.RequestState.JOIN)
@@ -44,7 +44,7 @@ class FullEventDetailsViewModel : ViewModel() {
     }
 
     private fun isUserCurrentlyAttendingEvent(eventDetail: EventDetail) =
-        eventDetail.participants.containsUser(FireRepo.getCurrentUserId()!!)
+        eventDetail.participants.containsUser(FireAuth.getCurrentUserId()!!)
 
     fun isHost(eventDetail: EventDetail, userId: String) :Boolean {
         return eventDetail.userCreator.uid == userId
@@ -61,9 +61,9 @@ class FullEventDetailsViewModel : ViewModel() {
 
     fun joinEvent() {
         val event = eventDetailLiveData.value
-        FireStoreRepo.addParticipant(event!!.eventId, FireRepo.createCurrentUserProfile())
+        FireStoreRepo.addParticipant(event!!.eventId, FireAuth.createCurrentUserProfile())
             .addOnSuccessListener {
-                eventDetailLiveData.value?.participants?.addUser(FireRepo.createCurrentUserProfile())
+                eventDetailLiveData.value?.participants?.addUser(FireAuth.createCurrentUserProfile())
                 eventDetailLiveData.value = eventDetailLiveData.value
                 Log.d(TAG, "userAdded...")
             }.addOnFailureListener {
@@ -74,9 +74,9 @@ class FullEventDetailsViewModel : ViewModel() {
 
     fun leaveEvent() {
         val event = eventDetailLiveData.value
-        FireStoreRepo.removeParticipant(event!!.eventId, FireRepo.createCurrentUserProfile())
+        FireStoreRepo.removeParticipant(event!!.eventId, FireAuth.createCurrentUserProfile())
             .addOnSuccessListener {
-                eventDetailLiveData.value?.participants?.removeUser(FireRepo.createCurrentUserProfile())
+                eventDetailLiveData.value?.participants?.removeUser(FireAuth.createCurrentUserProfile())
                 eventDetailLiveData.value = eventDetailLiveData.value
                 Log.d(TAG, "user removed...")
             }.addOnFailureListener {

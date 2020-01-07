@@ -23,11 +23,10 @@ object FireStoreRepo {
 
     fun createUser(userProfile: UserProfile) : Task<Void>? {
         val ref = fireStore.collection("users")
-            .document(FireRepo.getCurrentUserId()!!)
+            .document(FireAuth.getCurrentUserId()!!)
             .set(userProfile)
         return ref
     }
-
 
     fun addParticipant(eventId: String, profile: UserProfile) : Task<Void> {
         Log.d(TAG, "add participant to $eventId")

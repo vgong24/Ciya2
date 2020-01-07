@@ -17,9 +17,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.AttendeeAdapter
-import com.victoweng.ciya2.constants.FireRepo
-import com.victoweng.ciya2.data.EventDetail
-import com.victoweng.ciya2.ui.custom.JoinButton
 import com.victoweng.ciya2.ui.viewmodels.FullEventDetailsViewModel
 import kotlinx.android.synthetic.main.fragment_full_event_details.*
 

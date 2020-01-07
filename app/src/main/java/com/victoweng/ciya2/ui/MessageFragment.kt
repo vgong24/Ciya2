@@ -26,17 +26,7 @@ class MessageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sign_out.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-            val googleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
-            googleSignInClient.signOut().addOnSuccessListener {
-                findNavController().navigate(R.id.action_messageFragment_to_searchHomeFragment)
-            }
-        }
+
     }
 
 }

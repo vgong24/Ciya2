@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.GeoPoint
 import com.victoweng.ciya2.constants.FIRE_EVENT_DETAILS
-import com.victoweng.ciya2.constants.FireRepo
+import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.EventDetail
 import org.imperiumlabs.geofirestore.extension.setLocation
 
@@ -17,12 +17,13 @@ object EventCreationRepo {
     fun createEvent(eventDetail: EventDetail) : Task<Void>? {
         val ref = FireStoreRepo.fireStore.collection(FIRE_EVENT_DETAILS).document()
         eventDetail.eventId = ref.id
-        val hostRef = FireStoreRepo.fireStore.collection("users").document(FireRepo.getCurrentUserId()!!)
+        val hostRef = FireStoreRepo.fireStore.collection("users").document(FireAuth.getCurrentUserId()!!)
         val geoRef = FireStoreRepo.geoFireStore
         val task = FireStoreRepo.fireStore.runBatch {
             writeBatch ->
             writeBatch.set(ref, eventDetail)
             writeBatch.update(ref, "host", hostRef)
+            ChatMessagesRepo.createChatRoom(eventDetail.eventId, eventDetail.title, writeBatch)
         }
         geoRef.setLocation(ref.id, GeoPoint(eventDetail.eventLocation.lat, eventDetail.eventLocation.lon)) { exception ->
             if (exception != null) {

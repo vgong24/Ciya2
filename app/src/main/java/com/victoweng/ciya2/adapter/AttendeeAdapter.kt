@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.victoweng.ciya2.R
-import com.victoweng.ciya2.constants.FireRepo
+import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.UserProfile
 import kotlinx.android.synthetic.main.attendee_item.view.*
 
@@ -44,7 +44,7 @@ open class AttendeeAdapter(val clickListener: (UserProfile) -> Unit): RecyclerVi
 
         fun onBind(userProfile: UserProfile, clickListener: (UserProfile) -> Unit) {
             userNameText.text = userProfile.userName
-            addButton.isEnabled = FireRepo.getCurrentUserId() != userProfile.uid
+            addButton.isEnabled = FireAuth.getCurrentUserId() != userProfile.uid
             addButton.setOnClickListener { clickListener(userProfile) }
         }
 
