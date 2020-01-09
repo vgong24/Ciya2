@@ -13,4 +13,5 @@ object FireAuth {
 
     fun createCurrentUserProfile() = UserProfile(uid = getCurrentUserId()!!, userName = getCurrentUser()!!.displayName!!)
 
+    fun isLoggedIn() = getCurrentUser() != null
 }

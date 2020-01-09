@@ -87,6 +87,8 @@ object FriendListRepo {
     }
 
     fun fetchFriendsList(listCallback:(MutableList<FriendRequest>) -> Unit) {
+        if (!FireAuth.isLoggedIn()) return
+
         val ref = FireStoreRepo.fireStore.collection(FIRE_FRIEND_LIST)
         ref.whereEqualTo("sender.uid", FireAuth.getCurrentUserId()!!)
             .get()

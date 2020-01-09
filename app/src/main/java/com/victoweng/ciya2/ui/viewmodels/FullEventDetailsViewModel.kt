@@ -61,14 +61,10 @@ class FullEventDetailsViewModel : ViewModel() {
 
     fun joinEvent() {
         val event = eventDetailLiveData.value
-        FireStoreRepo.addParticipant(event!!.eventId, FireAuth.createCurrentUserProfile())
-            .addOnSuccessListener {
-                eventDetailLiveData.value?.participants?.addUser(FireAuth.createCurrentUserProfile())
-                eventDetailLiveData.value = eventDetailLiveData.value
-                Log.d(TAG, "userAdded...")
-            }.addOnFailureListener {
-                Log.d(TAG, "exception " + it.message)
-            }
+        FireStoreRepo.addParticipant(event!!, FireAuth.createCurrentUserProfile()) {
+            eventDetailLiveData.value?.participants?.addUser(FireAuth.createCurrentUserProfile())
+            eventDetailLiveData.value = eventDetailLiveData.value
+        }
 
     }
 

@@ -44,7 +44,7 @@ class DashboardFragment : Fragment() {
                 .build()
             val googleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
             googleSignInClient.signOut().addOnSuccessListener {
-                findNavController().navigate(R.id.action_messageFragment_to_searchHomeFragment)
+                findNavController().navigate(R.id.searchHomeFragment)
             }
         }
     }

@@ -138,4 +138,9 @@
             android:name="com.victoweng.ciya2.ui.startactivity.CreateUsernameFragment"
             android:label="fragment_create_username"
             tools:layout="@layout/fragment_create_username"/>
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.victoweng.ciya2.ui.dashboard.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 </navigation>

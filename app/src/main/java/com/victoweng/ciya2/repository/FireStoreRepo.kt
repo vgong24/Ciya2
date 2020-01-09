@@ -8,6 +8,7 @@ import com.victoweng.ciya2.comparator.TimeStampComparator
 import com.victoweng.ciya2.constants.*
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.data.UserProfile
+import com.victoweng.ciya2.data.chat.ChatRoom
 import org.imperiumlabs.geofirestore.GeoFirestore
 import org.imperiumlabs.geofirestore.listeners.GeoQueryEventListener
 
@@ -32,10 +33,15 @@ object FireStoreRepo {
         return fireStore.collection("users").document(FireAuth.getCurrentUserId()!!)
     }
 
-    fun addParticipant(eventId: String, profile: UserProfile) : Task<Void> {
-        Log.d(TAG, "add participant to $eventId")
-        return fireStore.collection(FIRE_EVENT_DETAILS).document(eventId)
-            .update(FIRE_PARTICIPANT_USERS, FieldValue.arrayUnion(profile))
+    fun addParticipant(eventDetail: EventDetail, profile: UserProfile, onSuccess: () -> Unit){
+        Log.d(TAG, "add participant to ${eventDetail.eventId}")
+        var eventDetailsRef = fireStore.collection(FIRE_EVENT_DETAILS).document(eventDetail.eventId)
+        var eventAttendingRef = getCurrentUserRef().collection(FIRE_EVENTS_ATTENDING).document(eventDetail.eventId)
+        fireStore.runBatch { writeBatch ->
+            writeBatch.update(eventDetailsRef, FIRE_PARTICIPANT_USERS, FieldValue.arrayUnion(profile))
+            writeBatch.set(eventAttendingRef, ChatRoom(roomId = eventDetail.eventId, title = eventDetail.title))
+            onSuccess()
+        }
     }
 
     fun removeParticipant(eventId: String, profile: UserProfile): Task<Void> {
