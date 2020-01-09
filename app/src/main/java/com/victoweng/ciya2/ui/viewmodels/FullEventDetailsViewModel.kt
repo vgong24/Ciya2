@@ -2,6 +2,7 @@ package com.victoweng.ciya2.ui.viewmodels
 
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.victoweng.ciya2.constants.EVENT_DETAIL
@@ -20,6 +21,9 @@ class FullEventDetailsViewModel : ViewModel() {
     val locationLiveData = MutableLiveData<EventLocation>(EventLocation())
     val eventDetailLiveData = MutableLiveData<EventDetail>()
 
+    fun getEventDetailLiveData(): LiveData<EventDetail> {
+        return eventDetailLiveData
+    }
     fun getEventDetailsFrom(bundle: Bundle) {
         val detail = bundle.getParcelable(EVENT_DETAIL) as EventDetail
         updateEventDetails(detail)
@@ -65,24 +69,19 @@ class FullEventDetailsViewModel : ViewModel() {
             eventDetailLiveData.value?.participants?.addUser(FireAuth.createCurrentUserProfile())
             eventDetailLiveData.value = eventDetailLiveData.value
         }
-
     }
 
     fun leaveEvent() {
         val event = eventDetailLiveData.value
-        FireStoreRepo.removeParticipant(event!!.eventId, FireAuth.createCurrentUserProfile())
-            .addOnSuccessListener {
-                eventDetailLiveData.value?.participants?.removeUser(FireAuth.createCurrentUserProfile())
-                eventDetailLiveData.value = eventDetailLiveData.value
-                Log.d(TAG, "user removed...")
-            }.addOnFailureListener {
-                Log.d(TAG, "failed to remove " + it.message)
-            }
+        FireStoreRepo.removeParticipant(event!!.eventId, FireAuth.createCurrentUserProfile()) {
+            eventDetailLiveData.value?.participants?.removeUser(FireAuth.createCurrentUserProfile())
+            eventDetailLiveData.value = eventDetailLiveData.value
+        }
     }
 
     fun onAddButtonClicked(userProfile: UserProfile) {
         FriendListRepo.sendFriendRequest(userProfile) {
-            Log.d("CLOWNB", "User ADDEDL $it")
+            Log.d("CLOWN", "User ADDEDL $it")
         }
     }
 }

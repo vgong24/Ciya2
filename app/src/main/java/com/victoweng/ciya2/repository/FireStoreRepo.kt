@@ -22,7 +22,7 @@ object FireStoreRepo {
         GeoFirestore(fireStore.collection(EVENT_GEO_FIRE))
     }
 
-    fun createUser(userProfile: UserProfile) : Task<Void>? {
+    fun createUser(userProfile: UserProfile): Task<Void>? {
         val ref = fireStore.collection("users")
             .document(FireAuth.getCurrentUserId()!!)
             .set(userProfile)
@@ -33,7 +33,7 @@ object FireStoreRepo {
         return fireStore.collection("users").document(FireAuth.getCurrentUserId()!!)
     }
 
-    fun addParticipant(eventDetail: EventDetail, profile: UserProfile, onSuccess: () -> Unit){
+    fun addParticipant(eventDetail: EventDetail, profile: UserProfile, onSuccess: () -> Unit) {
         Log.d(TAG, "add participant to ${eventDetail.eventId}")
         var eventDetailsRef = fireStore.collection(FIRE_EVENT_DETAILS).document(eventDetail.eventId)
         var eventAttendingRef = getCurrentUserRef().collection(FIRE_EVENTS_ATTENDING).document(eventDetail.eventId)
@@ -44,9 +44,15 @@ object FireStoreRepo {
         }
     }
 
-    fun removeParticipant(eventId: String, profile: UserProfile): Task<Void> {
-        return fireStore.collection(FIRE_EVENT_DETAILS).document(eventId)
-            .update(FIRE_PARTICIPANT_USERS, FieldValue.arrayRemove(profile))
+    fun removeParticipant(eventId: String, profile: UserProfile, onComplete: () -> Unit) {
+
+        var eventDetailsRef = fireStore.collection(FIRE_EVENT_DETAILS).document(eventId)
+        var eventAttendingRef = getCurrentUserRef().collection(FIRE_EVENTS_ATTENDING).document(eventId)
+        fireStore.runBatch { writeBatch ->
+            writeBatch.update(eventDetailsRef, FIRE_PARTICIPANT_USERS, FieldValue.arrayRemove(profile))
+            writeBatch.delete(eventAttendingRef)
+            onComplete()
+        }
     }
 
     //https://stackoverflow.com/questions/32886546/how-to-get-all-child-list-from-firebase-android
@@ -54,7 +60,7 @@ object FireStoreRepo {
 
         val eventIdlist = mutableListOf<String>()
         geoFireStore.queryAtLocation(GeoPoint(location.latitude, location.longitude), 8000.0)
-            .addGeoQueryEventListener(object: GeoQueryEventListener{
+            .addGeoQueryEventListener(object : GeoQueryEventListener {
                 override fun onGeoQueryError(exception: Exception) {
 
                 }

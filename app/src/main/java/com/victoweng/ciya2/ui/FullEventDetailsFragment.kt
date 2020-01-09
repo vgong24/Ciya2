@@ -15,21 +15,28 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.AttendeeAdapter
+import com.victoweng.ciya2.constants.FireAuth
+import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.ui.viewmodels.FullEventDetailsViewModel
 import kotlinx.android.synthetic.main.fragment_full_event_details.*
 
 class FullEventDetailsFragment : Fragment(), OnMapReadyCallback {
 
     val TAG = FullEventDetailsFragment::class.java.canonicalName
-    val viewModel : FullEventDetailsViewModel by lazy {
+    val viewModel: FullEventDetailsViewModel by lazy {
         ViewModelProvider(this).get(FullEventDetailsViewModel::class.java)
     }
 
-    val attendeeAdapter : AttendeeAdapter by lazy {
-        AttendeeAdapter{userProfile ->  viewModel.onAddButtonClicked(userProfile)}
+    val attendeeAdapter: AttendeeAdapter by lazy {
+        AttendeeAdapter { userProfile -> viewModel.onAddButtonClicked(userProfile) }
     }
+
+    lateinit var gMap: GoogleMap
+    var markerPoint: Marker? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,12 +47,21 @@ class FullEventDetailsFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        gMap = googleMap
         Log.d(TAG, "event location: " + viewModel.eventDetailLiveData.value!!.eventLocation.toString())
         viewModel.eventDetailLiveData.observe(viewLifecycleOwner, Observer {
+            markerPoint = googleMap.addMarker(MarkerOptions().position(it.eventLocation.toLatLng()))
+            setMarkerVisibility(it)
+
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(it.eventLocation.toLatLng()))
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(10f))
             googleMap.uiSettings.isScrollGesturesEnabled = false
         })
+    }
+
+    private fun setMarkerVisibility(it: EventDetail) {
+        markerPoint?.isVisible = it.participants.containsUser(FireAuth.getCurrentUserId()!!)
+        Log.d("CLOWN", "Set markerVisibility... ${markerPoint?.isVisible}")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,23 +77,19 @@ class FullEventDetailsFragment : Fragment(), OnMapReadyCallback {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.event_location) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-
     }
 
     private fun observeData() {
-        viewModel.eventDetailLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.getEventDetailLiveData().observe(viewLifecycleOwner, Observer {
             event_title.text = it.title
             event_description.text = it.description + " " + it.eventLocation.toString()
             event_time.text = it.timeStampFormatted()
 
             viewModel.setupJoinButton(join_button, it)
-
             attendeeAdapter.setUsers(it.participants.userList)
+            setMarkerVisibility(it)
         })
     }
-
-
 
 
 }
