@@ -1,7 +1,9 @@
 package com.victoweng.ciya2.repository
 
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.functions.FirebaseFunctions
 import com.victoweng.ciya2.constants.FireAuth
@@ -76,5 +78,18 @@ object ChatMessagesRepo {
         }
 
         return getSingleChatId(uid2, uid1)
+    }
+
+    fun fetchChatRoomsFor(onSuccess: (MutableList<ChatRoom>) -> Unit) : Task<QuerySnapshot> {
+        return FireStoreRepo.getCurrentUserRef().collection("eventsAttending")
+            .get()
+            .addOnSuccessListener {
+                var list = it.toObjects(ChatRoom::class.java)
+                Log.d("CLOWN", "Success: ${list.size}")
+                onSuccess(list)
+            }.addOnFailureListener {
+                Log.d("CLOWN", "Failed ${it.message}")
+                onSuccess(mutableListOf())
+            }
     }
 }

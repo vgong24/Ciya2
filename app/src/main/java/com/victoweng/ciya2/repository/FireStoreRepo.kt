@@ -28,6 +28,10 @@ object FireStoreRepo {
         return ref
     }
 
+    fun getCurrentUserRef(): DocumentReference {
+        return fireStore.collection("users").document(FireAuth.getCurrentUserId()!!)
+    }
+
     fun addParticipant(eventId: String, profile: UserProfile) : Task<Void> {
         Log.d(TAG, "add participant to $eventId")
         return fireStore.collection(FIRE_EVENT_DETAILS).document(eventId)
