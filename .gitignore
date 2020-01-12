@@ -14,3 +14,4 @@
 app/src/main/res/values/secrets.xml
 app/google-services.json
 functions/package-lock.json
+app/schemas/com.victoweng.ciya2.repository.database.AppDatabase/1.json
