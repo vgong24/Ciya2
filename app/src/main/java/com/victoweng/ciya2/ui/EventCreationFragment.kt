@@ -16,9 +16,10 @@ import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.CategoryAdapter
 import com.victoweng.ciya2.data.CategoryType
 import com.victoweng.ciya2.vm.EventCreationViewModel
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_event_creation.*
 
-class EventCreationFragment : Fragment() {
+class EventCreationFragment : DaggerFragment() {
 
     lateinit var viewModel: EventCreationViewModel
     lateinit var categoryAdapter: CategoryAdapter

@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.messages.ChatRoomsAdapter
 import com.victoweng.ciya2.ui.viewmodels.MessageListViewModel
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_message.*
 import kotlinx.android.synthetic.main.fragment_messages_list.*
 
-class MessagesListFragment : Fragment() {
+class MessagesListFragment : DaggerFragment() {
 
     val viewModel: MessageListViewModel by lazy {
         ViewModelProviders.of(this).get(MessageListViewModel::class.java)

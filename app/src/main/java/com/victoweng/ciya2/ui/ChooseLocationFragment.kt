@@ -29,9 +29,10 @@ import com.victoweng.ciya2.constants.EVENT_LOCATION
 import com.victoweng.ciya2.data.CategoryType
 import com.victoweng.ciya2.data.EventLocation
 import com.victoweng.ciya2.ui.viewmodels.ChooseLocationViewModel
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_choose_location.*
 
-class ChooseLocationFragment : Fragment(), OnMapReadyCallback {
+class ChooseLocationFragment : DaggerFragment(), OnMapReadyCallback {
 
     val viewModel : ChooseLocationViewModel by lazy {
         ViewModelProviders.of(this).get(ChooseLocationViewModel::class.java)

@@ -22,9 +22,10 @@ import com.victoweng.ciya2.adapter.AttendeeAdapter
 import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.ui.viewmodels.FullEventDetailsViewModel
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_full_event_details.*
 
-class FullEventDetailsFragment : Fragment(), OnMapReadyCallback {
+class FullEventDetailsFragment : DaggerFragment(), OnMapReadyCallback {
 
     val TAG = FullEventDetailsFragment::class.java.canonicalName
     val viewModel: FullEventDetailsViewModel by lazy {

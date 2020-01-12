@@ -7,9 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.victoweng.ciya2.R
+import dagger.android.support.DaggerFragment
 
 
-class ReviewEventDetailsFragment : Fragment() {
+class ReviewEventDetailsFragment : DaggerFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -24,10 +24,11 @@ import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.SearchAdapter
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.ui.viewmodels.SearchHomeViewModel
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_search_home.*
 
 
-class SearchHomeFragment : Fragment() {
+class SearchHomeFragment : DaggerFragment() {
 
     val TAG = SearchHomeFragment::class.java.canonicalName
     val MY_PERMISSION_ACCESS_COURSE_LOCATION = 11

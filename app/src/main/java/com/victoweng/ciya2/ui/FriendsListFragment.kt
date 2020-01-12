@@ -15,9 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.FriendListAdapter
 import com.victoweng.ciya2.ui.viewmodels.FriendsListViewModel
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_friends_list.*
 
-class FriendsListFragment : Fragment() {
+class FriendsListFragment : DaggerFragment() {
 
     val viewModel : FriendsListViewModel by lazy {
         ViewModelProviders.of(this).get(FriendsListViewModel::class.java)

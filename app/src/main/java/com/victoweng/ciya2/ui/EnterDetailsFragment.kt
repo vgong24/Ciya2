@@ -14,10 +14,11 @@ import com.google.firebase.Timestamp
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.ui.viewmodels.EnterDetailsViewModel
 import com.victoweng.ciya2.util.date.DateTimeUtil
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_enter_details.*
 import java.util.*
 
-class EnterDetailsFragment : Fragment() {
+class EnterDetailsFragment : DaggerFragment() {
 
     val enterDetailsViewModel: EnterDetailsViewModel by lazy {
         ViewModelProvider(this).get(EnterDetailsViewModel::class.java)

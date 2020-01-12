@@ -12,9 +12,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.victoweng.ciya2.R
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_message.*
 
-class MessageFragment : Fragment() {
+class MessageFragment : DaggerFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
