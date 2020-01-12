@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -28,6 +29,18 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     lateinit var googleSignInClient: GoogleSignInClient
     lateinit var googleSignInOptions: GoogleSignInOptions
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        finishOnBackPress()
+    }
+
+    private fun finishOnBackPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            Log.d(TAG, "onBackPressed. Finishing Activity")
+            requireActivity().finish()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

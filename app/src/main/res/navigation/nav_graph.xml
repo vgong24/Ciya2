@@ -15,6 +15,9 @@
         <action
                 android:id="@+id/action_searchHomeFragment_to_fullEventDetails"
                 app:destination="@id/fullEventDetails"/>
+        <action
+            android:id="@+id/action_searchHomeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
 
 
     </fragment>
@@ -142,5 +145,11 @@
         android:id="@+id/dashboardFragment"
         android:name="com.victoweng.ciya2.ui.dashboard.DashboardFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/dashboardFragment"
+            android:id="@+id/action_dashboardFragment_to_searchHomeFragment"
+            app:destination="@id/searchHomeFragment" />
+    </fragment>
 </navigation>
