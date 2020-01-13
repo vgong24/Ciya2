@@ -1,9 +1,9 @@
 package com.victoweng.ciya2.ui.auth
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -17,34 +17,40 @@ import com.victoweng.ciya2.repository.FireDatabaseRepo
 import com.victoweng.ciya2.util.ToastUtil
 import javax.inject.Inject
 
-class LoginViewModel(val context: Context, val navController: NavController) : ViewModel() {
+class LoginViewModel @Inject constructor(val toastUtil: ToastUtil) : ViewModel() {
+
+    private val navigationActionLiveData = MutableLiveData<Int>()
 
     val TAG = LoginViewModel::class.java.canonicalName
-   fun handleAuthentication(result : Task<AuthResult>) {
-       if (result.isSuccessful) {
-           Log.d(TAG, "is successful")
-           userHasUserName()
-       }else {
-           Toast.makeText(context, "Sign in failed after auth " + result.exception?.message, Toast.LENGTH_SHORT).show()
-       }
-   }
+    fun handleAuthentication(result: Task<AuthResult>) {
+        if (result.isSuccessful) {
+            Log.d(TAG, "is successful")
+            userHasUserName()
+        } else {
+            toastUtil.show("Sign in failed after auth " + result.exception?.message)
+        }
+    }
+
+    fun observeNavigationAction(): LiveData<Int> {
+        return navigationActionLiveData
+    }
 
     fun userHasUserName() {
         FireDatabaseRepo.getUser(FireAuth.getCurrentUserId()!!)
-            .addListenerForSingleValueEvent(object: ValueEventListener {
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()){
+                    if (dataSnapshot.exists()) {
                         val userProfile = dataSnapshot.getValue(UserProfile::class.java)
                         if (userProfile?.userName != null) {
-                            navController.navigate(R.id.action_loginFragment_to_searchHomeFragment)
+                            navigateTo(R.id.action_loginFragment_to_searchHomeFragment)
                         } else {
-                            ToastUtil.show(context, "Create username...")
-                            navController.navigate(R.id.action_loginFragment_to_createUsernameFragment)
+                            toastUtil.show("Create username...")
+                            navigateTo(R.id.action_loginFragment_to_createUsernameFragment)
                         }
                     } else {
                         Log.d(TAG, "doesnt exist...")
-                        ToastUtil.show(context, "Create username...")
-                        navController.navigate(R.id.action_loginFragment_to_createUsernameFragment)
+                        toastUtil.show("Create username...")
+                        navigateTo(R.id.action_loginFragment_to_createUsernameFragment)
                     }
                 }
 
@@ -53,6 +59,10 @@ class LoginViewModel(val context: Context, val navController: NavController) : V
                 }
             })
         Log.d(TAG, "check databaseRef")
+    }
+
+    private fun navigateTo(actionId: Int) {
+        navigationActionLiveData.value = actionId
     }
 }
 

@@ -8,8 +8,9 @@ import androidx.navigation.NavController
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.data.chat.ChatRoom
 import com.victoweng.ciya2.repository.ChatMessagesRepo
+import javax.inject.Inject
 
-class MessageListViewModel : ViewModel() {
+class MessageListViewModel @Inject constructor() : ViewModel() {
 
     val chatRoomLiveData = MutableLiveData<MutableList<ChatRoom>>()
 

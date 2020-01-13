@@ -6,8 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.victoweng.ciya2.data.friend.FriendRequest
 import com.victoweng.ciya2.repository.FriendListRepo
+import javax.inject.Inject
 
-class FriendsListViewModel : ViewModel() {
+class FriendsListViewModel @Inject constructor() : ViewModel() {
 
     val TAG = FriendsListViewModel::class.java.canonicalName
 

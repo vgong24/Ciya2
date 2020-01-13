@@ -13,8 +13,9 @@ import com.victoweng.ciya2.data.UserProfile
 import com.victoweng.ciya2.repository.FireStoreRepo
 import com.victoweng.ciya2.repository.FriendListRepo
 import com.victoweng.ciya2.ui.custom.JoinButton
+import javax.inject.Inject
 
-class FullEventDetailsViewModel : ViewModel() {
+class FullEventDetailsViewModel @Inject constructor(): ViewModel() {
 
     val TAG = FullEventDetailsViewModel::class.java.canonicalName
 

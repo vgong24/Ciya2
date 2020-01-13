@@ -21,8 +21,9 @@ import com.victoweng.ciya2.repository.EventCreationRepo
 import com.victoweng.ciya2.util.ToastUtil
 import com.victoweng.ciya2.util.date.DateBuilder
 import com.victoweng.ciya2.util.date.DateTimeUtil
+import javax.inject.Inject
 
-class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil) : ViewModel(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     val TAG = EnterDetailsViewModel::class.java.canonicalName
     val titleLiveData = MutableLiveData<String>("")
@@ -71,7 +72,7 @@ class EnterDetailsViewModel : ViewModel(), DatePickerDialog.OnDateSetListener, T
         if (timeIsAfterNow(hour, minute)) {
             setTime(hour, minute)
         } else {
-            ToastUtil.show(timePicker?.context!!, "Time needs to be after current time to be valid")
+            toastUtil.show("Time needs to be after current time to be valid")
             showTimePicker(timePicker?.context!!)
         }
     }

@@ -9,8 +9,10 @@ import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.UserProfile
 import com.victoweng.ciya2.repository.FireStoreRepo
 import com.victoweng.ciya2.util.ToastUtil
+import javax.inject.Inject
 
-class CreateUserNameViewModel(val context: Context) : ViewModel() {
+class CreateUserNameViewModel @Inject constructor(private val toastUtil: ToastUtil, private val context: Context) :
+    ViewModel() {
     val TAG = CreateUserNameViewModel::class.java.canonicalName
     val usernamesRef = FirebaseDatabase.getInstance().getReference("usernames")
     val usersRef = FirebaseDatabase.getInstance().getReference("users")
@@ -45,19 +47,12 @@ class CreateUserNameViewModel(val context: Context) : ViewModel() {
 
                 override fun onComplete(error: DatabaseError?, commited: Boolean, snapshot: DataSnapshot?) {
                     if (commited) {
-                        ToastUtil.show(context, "Committed ${snapshot.toString()}")
+                        toastUtil.show("Committed ${snapshot.toString()}")
                     } else {
-                        ToastUtil.show(context, "Exists try enter another username")
+                        toastUtil.show("Exists try enter another username")
                     }
                     isValidating = false
                 }
             })
     }
-}
-
-class CreateUserNameViewModelFactory(val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return CreateUserNameViewModel(context) as T
-    }
-
 }

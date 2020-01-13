@@ -9,14 +9,19 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.victoweng.ciya2.R
+import com.victoweng.ciya2.ui.viewmodels.ViewModelProviderFactory
 import com.victoweng.ciya2.util.date.DateTimeUtil
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_enter_details.*
+import javax.inject.Inject
 
 class EnterDetailsFragment : DaggerFragment() {
 
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
+
     val enterDetailsViewModel: EnterDetailsViewModel by lazy {
-        ViewModelProvider(this).get(EnterDetailsViewModel::class.java)
+        ViewModelProvider(this, providerFactory).get(EnterDetailsViewModel::class.java)
     }
 
     override fun onCreateView(
