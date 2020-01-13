@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui.viewmodels
+package com.victoweng.ciya2.ui.message
 
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.victoweng.ciya2.R
-import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.chat.ChatRoom
 import com.victoweng.ciya2.repository.ChatMessagesRepo
 

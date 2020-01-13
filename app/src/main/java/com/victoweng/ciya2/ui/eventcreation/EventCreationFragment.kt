@@ -1,9 +1,8 @@
-package com.victoweng.ciya2.ui
+package com.victoweng.ciya2.ui.eventcreation
 
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.CategoryAdapter
 import com.victoweng.ciya2.data.CategoryType
-import com.victoweng.ciya2.vm.EventCreationViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_event_creation.*
 

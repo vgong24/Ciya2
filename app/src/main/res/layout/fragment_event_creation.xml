@@ -4,7 +4,7 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".ui.EventCreationFragment">
+             tools:context=".ui.eventcreation.EventCreationFragment">
 
     <TextView
             android:text="@string/select_event_type"

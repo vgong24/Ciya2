@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui
+package com.victoweng.ciya2.ui.main
 
 import android.os.Bundle
 import android.util.Log

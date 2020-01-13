@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui.viewmodels
+package com.victoweng.ciya2.ui.eventcreation
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog

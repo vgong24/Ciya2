@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui.startactivity
+package com.victoweng.ciya2.ui.auth
 
 
 import android.os.Bundle
@@ -9,15 +9,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 
 import com.victoweng.ciya2.R
-import com.victoweng.ciya2.ui.viewmodels.CreateUserNameViewModel
-import com.victoweng.ciya2.ui.viewmodels.CreateUserNameViewModelFactory
 import kotlinx.android.synthetic.main.fragment_create_username.*
 
 
 class CreateUsernameFragment : Fragment() {
 
     val viewModel: CreateUserNameViewModel by lazy {
-        ViewModelProviders.of(this, CreateUserNameViewModelFactory(context!!)).get(CreateUserNameViewModel::class.java)
+        ViewModelProviders.of(this,
+            CreateUserNameViewModelFactory(context!!)
+        ).get(CreateUserNameViewModel::class.java)
     }
 
     override fun onCreateView(

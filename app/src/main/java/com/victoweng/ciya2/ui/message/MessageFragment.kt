@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui
+package com.victoweng.ciya2.ui.message
 
 
 import android.os.Bundle

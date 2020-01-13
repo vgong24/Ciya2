@@ -7,7 +7,7 @@
 
     <fragment
             android:id="@+id/searchHomeFragment"
-            android:name="com.victoweng.ciya2.ui.SearchHomeFragment"
+            android:name="com.victoweng.ciya2.ui.searchEvent.SearchHomeFragment"
             tools:layout="@layout/fragment_search_home">
         <action
                 android:id="@+id/action_searchHomeFragment_to_eventCreationFragment"
@@ -24,7 +24,7 @@
 
     <fragment
             android:id="@+id/eventCreationFragment"
-            android:name="com.victoweng.ciya2.ui.EventCreationFragment"
+            android:name="com.victoweng.ciya2.ui.eventcreation.EventCreationFragment"
             tools:layout="@layout/fragment_event_creation">
         <action
                 android:id="@+id/action_eventCreationFragment_to_chooseLocationFragment"
@@ -33,7 +33,7 @@
 
     <fragment
             android:id="@+id/chooseLocationFragment"
-            android:name="com.victoweng.ciya2.ui.ChooseLocationFragment"
+            android:name="com.victoweng.ciya2.ui.eventcreation.ChooseLocationFragment"
             tools:layout="@layout/fragment_choose_location">
         <argument android:name="categoryType" app:argType="com.victoweng.ciya2.data.CategoryType"/>
         <action
@@ -43,7 +43,7 @@
 
     <fragment
             android:id="@+id/enterDetailsFragment"
-            android:name="com.victoweng.ciya2.ui.EnterDetailsFragment"
+            android:name="com.victoweng.ciya2.ui.eventcreation.EnterDetailsFragment"
             tools:layout="@layout/fragment_enter_details">
         <argument android:name="categoryType" app:argType="com.victoweng.ciya2.data.CategoryType"/>
         <argument android:name="location" app:argType="com.victoweng.ciya2.data.EventLocation"/>
@@ -68,7 +68,7 @@
 
     <fragment
             android:id="@+id/fullEventDetails"
-            android:name="com.victoweng.ciya2.ui.FullEventDetailsFragment"
+            android:name="com.victoweng.ciya2.ui.searchEvent.FullEventDetailsFragment"
             android:label="Full Event Details"
             tools:layout="@layout/fragment_full_event_details">
         <argument android:name="eventDetails" app:argType="com.victoweng.ciya2.data.EventDetail"/>
@@ -88,7 +88,7 @@
 
     <fragment
             android:id="@+id/messagesListFragment"
-            android:name="com.victoweng.ciya2.ui.MessagesListFragment"
+            android:name="com.victoweng.ciya2.ui.message.MessagesListFragment"
             android:label="no label"
             tools:layout="@layout/fragment_messages_list">
         <action
@@ -98,7 +98,7 @@
 
     <fragment
             android:id="@+id/messageFragment"
-            android:name="com.victoweng.ciya2.ui.MessageFragment"
+            android:name="com.victoweng.ciya2.ui.message.MessageFragment"
             android:label="fragment_message"
             tools:layout="@layout/fragment_message">
         <argument android:name="chatRoom" app:argType="com.victoweng.ciya2.data.chat.ChatRoom"/>
@@ -124,7 +124,7 @@
             tools:layout="@layout/fragment_friends_list"/>
     <fragment
             android:id="@+id/loginFragment"
-            android:name="com.victoweng.ciya2.ui.startactivity.LoginFragment"
+            android:name="com.victoweng.ciya2.ui.auth.LoginFragment"
             android:label="login_fragment"
             tools:layout="@layout/login_fragment">
         <action
@@ -138,7 +138,7 @@
     </fragment>
     <fragment
             android:id="@+id/createUsernameFragment"
-            android:name="com.victoweng.ciya2.ui.startactivity.CreateUsernameFragment"
+            android:name="com.victoweng.ciya2.ui.auth.CreateUsernameFragment"
             android:label="fragment_create_username"
             tools:layout="@layout/fragment_create_username"/>
     <fragment

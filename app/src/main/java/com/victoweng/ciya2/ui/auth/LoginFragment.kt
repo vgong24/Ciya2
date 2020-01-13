@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui.startactivity
+package com.victoweng.ciya2.ui.auth
 
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
@@ -92,7 +92,9 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, LoginViewModelFactory(context!!, findNavController())).get(LoginViewModel::class.java)
+        viewModel = ViewModelProviders.of(this,
+            LoginViewModelFactory(context!!, findNavController())
+        ).get(LoginViewModel::class.java)
         googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()

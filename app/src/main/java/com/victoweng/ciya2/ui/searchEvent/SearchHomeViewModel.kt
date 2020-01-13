@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui.viewmodels
+package com.victoweng.ciya2.ui.searchEvent
 
 import android.location.Location
 import android.util.Log

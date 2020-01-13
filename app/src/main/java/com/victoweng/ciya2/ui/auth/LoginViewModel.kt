@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui.startactivity
+package com.victoweng.ciya2.ui.auth
 
 import android.content.Context
 import android.util.Log
@@ -15,6 +15,7 @@ import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.UserProfile
 import com.victoweng.ciya2.repository.FireDatabaseRepo
 import com.victoweng.ciya2.util.ToastUtil
+import javax.inject.Inject
 
 class LoginViewModel(val context: Context, val navController: NavController) : ViewModel() {
 

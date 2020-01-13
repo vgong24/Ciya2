@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui
+package com.victoweng.ciya2.ui.eventcreation
 
 
 import android.Manifest
@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -28,7 +27,6 @@ import com.victoweng.ciya2.constants.EVENT_CATEGORY_TYPE
 import com.victoweng.ciya2.constants.EVENT_LOCATION
 import com.victoweng.ciya2.data.CategoryType
 import com.victoweng.ciya2.data.EventLocation
-import com.victoweng.ciya2.ui.viewmodels.ChooseLocationViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_choose_location.*
 

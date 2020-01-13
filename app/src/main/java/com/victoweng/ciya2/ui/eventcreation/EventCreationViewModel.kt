@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.vm
+package com.victoweng.ciya2.ui.eventcreation
 
 import android.view.animation.Transformation
 import androidx.lifecycle.LiveData

@@ -3,7 +3,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".ui.MessagesListFragment">
+             tools:context=".ui.message.MessagesListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_room_list_recycler_view"

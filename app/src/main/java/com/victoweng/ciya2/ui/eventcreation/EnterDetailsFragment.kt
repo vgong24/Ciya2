@@ -1,22 +1,17 @@
-package com.victoweng.ciya2.ui
+package com.victoweng.ciya2.ui.eventcreation
 
 
 import android.os.Bundle
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.Timestamp
 import com.victoweng.ciya2.R
-import com.victoweng.ciya2.ui.viewmodels.EnterDetailsViewModel
 import com.victoweng.ciya2.util.date.DateTimeUtil
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_enter_details.*
-import java.util.*
 
 class EnterDetailsFragment : DaggerFragment() {
 

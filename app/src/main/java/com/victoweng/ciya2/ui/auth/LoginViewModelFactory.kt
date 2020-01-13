@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui.startactivity
+package com.victoweng.ciya2.ui.auth
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.victoweng.ciya2.ui.viewmodels
+package com.victoweng.ciya2.ui.auth
 
 import android.content.Context
 import android.util.Log
