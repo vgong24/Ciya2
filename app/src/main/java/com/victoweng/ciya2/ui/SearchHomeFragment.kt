@@ -24,17 +24,23 @@ import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.SearchAdapter
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.ui.viewmodels.SearchHomeViewModel
+import com.victoweng.ciya2.ui.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_search_home.*
+import javax.inject.Inject
+import javax.inject.Named
 
 
 class SearchHomeFragment : DaggerFragment() {
+
+    @Inject
+    lateinit var providerFactory: ViewModelProviderFactory
 
     val TAG = SearchHomeFragment::class.java.canonicalName
     val MY_PERMISSION_ACCESS_COURSE_LOCATION = 11
 
     val viewModel : SearchHomeViewModel by lazy {
-        ViewModelProviders.of(this).get(SearchHomeViewModel::class.java)
+        ViewModelProviders.of(this, providerFactory).get(SearchHomeViewModel::class.java)
     }
 
     val searchAdapter: SearchAdapter by lazy {
@@ -42,7 +48,6 @@ class SearchHomeFragment : DaggerFragment() {
     }
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +60,6 @@ class SearchHomeFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         //check authentication
         val navController = findNavController()
         if (FirebaseAuth.getInstance().currentUser == null) {

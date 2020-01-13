@@ -1,6 +1,7 @@
 package com.victoweng.ciya2.ui.viewmodels
 
 import android.location.Location
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,8 +11,13 @@ import com.victoweng.ciya2.R
 import com.victoweng.ciya2.constants.EVENT_DETAIL
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.repository.FireStoreRepo
+import javax.inject.Inject
 
-class SearchHomeViewModel : ViewModel() {
+class SearchHomeViewModel @Inject constructor(): ViewModel() {
+
+    init {
+        Log.d("CLOWN", "created")
+    }
     val localEventLiveData = MutableLiveData<List<EventDetail>>()
 
     fun getLocalEventList(): LiveData<List<EventDetail>> {
