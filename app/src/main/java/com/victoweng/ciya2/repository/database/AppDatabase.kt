@@ -1,9 +1,7 @@
 package com.victoweng.ciya2.repository.database
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
+import android.content.Context
+import androidx.room.*
 import com.victoweng.ciya2.repository.database.messages.MessageDao
 import com.victoweng.ciya2.repository.database.messages.MessageEntity
 import com.victoweng.ciya2.repository.database.typeconverter.TimeStampConverter
@@ -15,6 +13,16 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         @Volatile private var instance: AppDatabase? = null
+        val DB_NAME = "ciya_db"
+        private val LOCK = Any()
+
+        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+            instance ?: buildDatabase(context).also { instance = it }
+        }
+
+        private fun buildDatabase(context: Context) = Room.databaseBuilder(context,
+            AppDatabase::class.java, DB_NAME)
+            .build()
 
     }
 }

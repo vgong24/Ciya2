@@ -2,6 +2,8 @@ package com.victoweng.ciya2.di
 
 import android.app.Application
 import com.victoweng.ciya2.BaseApplication
+import com.victoweng.ciya2.di.repository.database.DatabaseModule
+import com.victoweng.ciya2.di.repository.firebase.FireBaseModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -15,7 +17,9 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         ActivityBuildersModule::class,
         ViewModelFactoryModule::class,
-        AppModule::class
+        AppModule::class,
+        DatabaseModule::class,
+        FireBaseModule::class
     ]
 )
 interface AppComponent : AndroidInjector<BaseApplication> {
