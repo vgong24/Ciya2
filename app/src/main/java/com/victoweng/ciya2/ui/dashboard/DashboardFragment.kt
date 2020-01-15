@@ -2,11 +2,13 @@ package com.victoweng.ciya2.ui.dashboard
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -38,16 +40,11 @@ class DashboardFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sign_out.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-            val googleSignInClient = GoogleSignIn.getClient(context!!, googleSignInOptions)
-            googleSignInClient.signOut().addOnSuccessListener {
-                findNavController().navigate(R.id.searchHomeFragment)
-            }
+            AuthUI.getInstance().signOut(context!!)
+                .addOnCompleteListener {
+                    Log.d("CLOWN","Signed out via AuthUI")
+                    findNavController().navigate(R.id.action_dashboardFragment_to_searchHomeFragment)
+                }
         }
     }
-
 }

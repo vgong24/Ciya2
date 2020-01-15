@@ -1,5 +1,7 @@
 package com.victoweng.ciya2.ui.auth
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,20 +16,20 @@ import com.victoweng.ciya2.R
 import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.UserProfile
 import com.victoweng.ciya2.repository.FireDatabaseRepo
+import com.victoweng.ciya2.repository.auth.AuthRepo
 import com.victoweng.ciya2.util.ToastUtil
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(val toastUtil: ToastUtil) : ViewModel() {
+class LoginViewModel @Inject constructor(val toastUtil: ToastUtil, val authRepo: AuthRepo) : ViewModel() {
+
+    private val TAG = LoginViewModel::class.java.canonicalName
 
     private val navigationActionLiveData = MutableLiveData<Int>()
+    private val shouldShowSignInButtonLiveData = MutableLiveData<Boolean>(true)
 
-    val TAG = LoginViewModel::class.java.canonicalName
-    fun handleAuthentication(result: Task<AuthResult>) {
-        if (result.isSuccessful) {
-            Log.d(TAG, "is successful")
-            userHasUserName()
-        } else {
-            toastUtil.show("Sign in failed after auth " + result.exception?.message)
+    fun checkForAuthentication() {
+        if (authRepo.isLoggedIn()) {
+            navigateTo(R.id.action_loginFragment_to_searchHomeFragment)
         }
     }
 
@@ -35,30 +37,19 @@ class LoginViewModel @Inject constructor(val toastUtil: ToastUtil) : ViewModel()
         return navigationActionLiveData
     }
 
+    fun observeShouldShowSignInButton(): LiveData<Boolean> {
+        return shouldShowSignInButtonLiveData
+    }
+
     fun userHasUserName() {
-        FireDatabaseRepo.getUser(FireAuth.getCurrentUserId()!!)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        val userProfile = dataSnapshot.getValue(UserProfile::class.java)
-                        if (userProfile?.userName != null) {
-                            navigateTo(R.id.action_loginFragment_to_searchHomeFragment)
-                        } else {
-                            toastUtil.show("Create username...")
-                            navigateTo(R.id.action_loginFragment_to_createUsernameFragment)
-                        }
-                    } else {
-                        Log.d(TAG, "doesnt exist...")
-                        toastUtil.show("Create username...")
-                        navigateTo(R.id.action_loginFragment_to_createUsernameFragment)
-                    }
-                }
+        shouldShowSignInButtonLiveData.value = false
+        authRepo.fetchUserInfo(authRepo.getCurrentUserId()!!, onSuccess = {navigateBasedOnUserInfo(it)}, onFailed = {})
+    }
 
-                override fun onCancelled(dataSnapshot: DatabaseError) {
-
-                }
-            })
-        Log.d(TAG, "check databaseRef")
+    private fun navigateBasedOnUserInfo(userProfile: UserProfile?) {
+        userProfile?.userName?.let {
+            navigateTo(R.id.action_loginFragment_to_searchHomeFragment)
+        } ?: navigateTo(R.id.action_loginFragment_to_createUsernameFragment)
     }
 
     private fun navigateTo(actionId: Int) {

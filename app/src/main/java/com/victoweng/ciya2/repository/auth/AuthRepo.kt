@@ -23,7 +23,7 @@ class AuthRepo @Inject constructor(val firebaseAuth: FirebaseAuth, val firebaseD
     fun createCurrentUserProfile() =
         UserProfile(uid = getCurrentUserId()!!, userName = getCurrentUser()!!.displayName!!)
 
-    fun isLoggedIn() = FireAuth.getCurrentUser() != null
+    fun isLoggedIn() = getCurrentUser() != null
 
     //FirebaseDatabase
     fun fetchUserInfo(uid: String, onSuccess: (UserProfile) -> Unit, onFailed: () -> Unit) {

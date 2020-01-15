@@ -16,6 +16,8 @@
                 android:id="@+id/action_searchHomeFragment_to_fullEventDetails"
                 app:destination="@id/fullEventDetails"/>
         <action
+            app:popUpTo="@id/searchHomeFragment"
+            app:popUpToInclusive="true"
             android:id="@+id/action_searchHomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
 

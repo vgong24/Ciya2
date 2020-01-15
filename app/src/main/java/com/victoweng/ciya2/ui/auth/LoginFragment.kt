@@ -1,5 +1,6 @@
 package com.victoweng.ciya2.ui.auth
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -42,10 +44,10 @@ class LoginFragment : DaggerFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        finishOnBackPress()
+        setupFinishOnBackPress()
     }
 
-    private fun finishOnBackPress() {
+    private fun setupFinishOnBackPress() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             Log.d(TAG, "onBackPressed. Finishing Activity")
             requireActivity().finish()
@@ -61,46 +63,51 @@ class LoginFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navController = findNavController()
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            Log.d(TAG, "we are logged in")
-            navController.navigate(R.id.action_loginFragment_to_searchHomeFragment)
-        } else {
-            Log.d(TAG, "not logged in")
-        }
 
-        sign_in_button.setOnClickListener {
-            signIn()
-        }
+        viewModel.checkForAuthentication()
 
         viewModel.observeNavigationAction().observe(viewLifecycleOwner, Observer {
             findNavController().navigate(it)
         })
+
+        viewModel.observeShouldShowSignInButton().observe(viewLifecycleOwner, Observer {
+            setViewsVisibility(it)
+        })
+
+        sign_in_button.setOnClickListener {
+            signIn()
+        }
+    }
+
+    private fun setViewsVisibility(enabled: Boolean) {
+        sign_in_button.visibility = if (enabled) View.VISIBLE else View.GONE
+        progress_bar_login.visibility = if (enabled) View.GONE else View.VISIBLE
     }
 
     private fun signIn() {
-        val signInIntent: Intent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.GoogleBuilder().build(),
+            AuthUI.IdpConfig.EmailBuilder().build()
+        )
+
+        startActivityForResult(AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setLogo(R.drawable.ic_add_black_24dp)
+            .setTheme(R.style.AppTheme)
+            .setAvailableProviders(providers)
+            .build(), RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d(TAG, "onactivityResult " + requestCode)
         if (requestCode == RC_SIGN_IN) {
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account)
-            } catch (e: ApiException) {
-                Toast.makeText(context, "Google sign in failed", Toast.LENGTH_SHORT).show()
+            val response = IdpResponse.fromResultIntent(data)
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.userHasUserName()
+            } else {
+                Log.e(TAG, "Error logging in ${response?.toString()}")
             }
-        }
-    }
-
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
-        val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
-            viewModel.handleAuthentication(it)
         }
     }
 

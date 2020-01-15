@@ -59,7 +59,7 @@ class SearchHomeFragment : DaggerFragment() {
         val navController = findNavController()
         if (FirebaseAuth.getInstance().currentUser == null) {
             Log.d(TAG, "Switchinig to loginFragment cuz we not logged in")
-            navController.navigate(R.id.loginFragment)
+            navController.navigate(R.id.action_searchHomeFragment_to_loginFragment)
         } else {
             Log.d(TAG, "logged in...")
         }
@@ -93,8 +93,7 @@ class SearchHomeFragment : DaggerFragment() {
                 } else {
                     //navigate back
                     Log.e(TAG, "onRequestPermissionResult access denied. Navigate back")
-                    Navigation.findNavController(view!!)
-                        .navigate(R.id.searchHomeFragment)
+                    checkLocationPermissions()
                 }
             }
         }
