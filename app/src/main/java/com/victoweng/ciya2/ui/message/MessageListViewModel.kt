@@ -7,15 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.data.chat.ChatRoom
-import com.victoweng.ciya2.repository.ChatMessagesRepo
+import com.victoweng.ciya2.repository.ChatMessagesAPI
 import javax.inject.Inject
 
-class MessageListViewModel @Inject constructor() : ViewModel() {
+class MessageListViewModel @Inject constructor(val chatAPI: ChatMessagesAPI) : ViewModel() {
 
     val chatRoomLiveData = MutableLiveData<MutableList<ChatRoom>>()
 
     fun fetchChatRoomData() {
-        ChatMessagesRepo.fetchChatRoomsFor {chatRoomList -> updateChatRoomLiveData(chatRoomList)}
+        chatAPI.fetchChatRoomsFor { chatRoomList -> updateChatRoomLiveData(chatRoomList)}
     }
 
     fun onChatRoomClicked(chatRoom: ChatRoom, navController: NavController) {

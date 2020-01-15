@@ -12,13 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.messages.ChatRoomsAdapter
+import com.victoweng.ciya2.ui.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_messages_list.*
+import javax.inject.Inject
 
 class MessagesListFragment : DaggerFragment() {
 
+    @Inject
+    lateinit var provider : ViewModelProviderFactory
+
     val viewModel: MessageListViewModel by lazy {
-        ViewModelProviders.of(this).get(MessageListViewModel::class.java)
+        ViewModelProviders.of(this, provider).get(MessageListViewModel::class.java)
     }
 
     val chatAdapter: ChatRoomsAdapter by lazy {

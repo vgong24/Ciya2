@@ -7,8 +7,9 @@ import com.victoweng.ciya2.constants.FIRE_EVENT_DETAILS
 import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.EventDetail
 import org.imperiumlabs.geofirestore.extension.setLocation
+import javax.inject.Inject
 
-object EventCreationRepo {
+class EventCreationRepo @Inject constructor(val chatMessagesAPI: ChatMessagesAPI){
     val TAG = EventCreationRepo::class.java.canonicalName
     /**
      * Saves the eventDetail with the host reference and the eventId from the document()
@@ -23,7 +24,7 @@ object EventCreationRepo {
             writeBatch ->
             writeBatch.set(ref, eventDetail)
             writeBatch.update(ref, "host", hostRef)
-            ChatMessagesRepo.createChatRoom(eventDetail.eventId, eventDetail.title, writeBatch)
+            chatMessagesAPI.createChatRoom(eventDetail.eventId, eventDetail.title, writeBatch)
         }
         geoRef.setLocation(ref.id, GeoPoint(eventDetail.eventLocation.lat, eventDetail.eventLocation.lon)) { exception ->
             if (exception != null) {

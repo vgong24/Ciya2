@@ -12,6 +12,9 @@ interface MessageDao {
     @Query("SELECT * FROM messages_table WHERE eventId LIKE :roomId ORDER BY timestamp DESC")
     fun getMessagesFrom(roomId: String) : LiveData<List<MessageEntity>>
 
+    @Query("SELECT messageId FROM messages_table WHERE eventId = :roomId ORDER BY timestamp DESC LIMIT 1")
+    fun getLatestMessageIdFrom(roomId: String) : LiveData<String>
+
     @Update
     fun update(messageEntity: MessageEntity)
 
@@ -23,5 +26,8 @@ interface MessageDao {
 
     @Query("DELETE FROM messages_table")
     fun deleteAllMessages()
+
+    @Query("DELETE FROM messages_table WHERE eventId = :roomId")
+    fun deleteGroupChat(roomId: String)
 
 }

@@ -3,38 +3,43 @@ package com.victoweng.ciya2.repository
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.functions.FirebaseFunctions
+import com.victoweng.ciya2.constants.FIRE_CHAT_MESSAGES
+import com.victoweng.ciya2.constants.FIRE_EVENTS_ATTENDING
+import com.victoweng.ciya2.constants.FIRE_USER
 import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.chat.ChatMessage
 import com.victoweng.ciya2.data.chat.ChatRoom
+import javax.inject.Inject
 
 /**
  * Maintains the repo for handling messaging based functionality to and from headend and sync with database
  * Responsible for sending and receiving 1-1 and group messages
  */
-object ChatMessagesRepo {
+class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore) {
 
-    val TAG = ChatMessagesRepo::class.java.canonicalName
+    val TAG = ChatMessagesAPI::class.java.canonicalName
 
     val functions: FirebaseFunctions by lazy {
         FirebaseFunctions.getInstance()
     }
 
     val chatRef: CollectionReference by lazy {
-        FireStoreRepo.fireStore.collection("chatRooms")
+        firestore.collection("chatRooms")
     }
 
     //Quick approach to append writing more to headend by passing through the writeBatch from creating
     //the eventDetails
     fun createChatRoom(groupId: String, title: String, writeBatch: WriteBatch) {
         var roomRef = chatRef.document(groupId)
-        var messageRef = roomRef.collection("chatMessages")
+        var messageRef = roomRef.collection(FIRE_CHAT_MESSAGES)
         var messageDoc = messageRef.document()
-        var userEventsRef = FireStoreRepo.fireStore.collection("users")
+        var userEventsRef = firestore.collection(FIRE_USER)
             .document(FireAuth.getCurrentUserId()!!)
-            .collection("eventsAttending")
+            .collection(FIRE_EVENTS_ATTENDING)
             .document(groupId)
 
         var latestMessage = ChatMessage(messageDoc.id, FireAuth.createCurrentUserProfile(), "Welcome")

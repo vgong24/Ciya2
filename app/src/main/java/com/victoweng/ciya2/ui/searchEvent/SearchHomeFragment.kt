@@ -58,7 +58,7 @@ class SearchHomeFragment : DaggerFragment() {
         //check authentication
         val navController = findNavController()
         if (FirebaseAuth.getInstance().currentUser == null) {
-            Log.d(TAG, "Switchinig to loginFragment cuz we not logged in")
+            Log.d(TAG, "Switching to loginFragment cuz we not logged in")
             navController.navigate(R.id.action_searchHomeFragment_to_loginFragment)
         } else {
             Log.d(TAG, "logged in...")

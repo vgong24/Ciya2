@@ -23,7 +23,7 @@ import com.victoweng.ciya2.util.date.DateBuilder
 import com.victoweng.ciya2.util.date.DateTimeUtil
 import javax.inject.Inject
 
-class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil) : ViewModel(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil, val eventCreationRepo: EventCreationRepo) : ViewModel(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     val TAG = EnterDetailsViewModel::class.java.canonicalName
     val titleLiveData = MutableLiveData<String>("")
@@ -122,7 +122,7 @@ class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil) : View
         if(!allFieldsFilled()) {
             return
         }
-        val task = EventCreationRepo.createEvent(getEventDetail())
+        val task = eventCreationRepo.createEvent(getEventDetail())
         task?.addOnCompleteListener {
             Log.d(TAG, "change to search home")
             navController.navigate(R.id.action_enterDetailsFragment_to_searchHomeFragment)

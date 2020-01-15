@@ -1,7 +1,6 @@
 package com.victoweng.ciya2.di.repository.database
 
 import android.content.Context
-import androidx.room.RoomDatabase
 import com.victoweng.ciya2.repository.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -13,7 +12,7 @@ object DatabaseModule {
      @Provides
      @Singleton
      @JvmStatic
-     fun providesRoomDatabase(context: Context): RoomDatabase {
+     fun providesRoomDatabase(context: Context): AppDatabase {
          return AppDatabase(context)
      }
 }
