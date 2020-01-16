@@ -17,24 +17,25 @@ import com.victoweng.ciya2.constants.EVENT_CATEGORY_TYPE
 import com.victoweng.ciya2.constants.EVENT_LOCATION
 import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.*
-import com.victoweng.ciya2.repository.EventCreationRepo
+import com.victoweng.ciya2.repository.event.EventsRepo
 import com.victoweng.ciya2.util.ToastUtil
 import com.victoweng.ciya2.util.date.DateBuilder
 import com.victoweng.ciya2.util.date.DateTimeUtil
 import javax.inject.Inject
 
-class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil, val eventCreationRepo: EventCreationRepo) : ViewModel(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil, val eventsRepo: EventsRepo) : ViewModel(),
+    DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     val TAG = EnterDetailsViewModel::class.java.canonicalName
     val titleLiveData = MutableLiveData<String>("")
     val descriptionLiveData = MutableLiveData<String>("")
     val eventDateLiveData = MutableLiveData<DateBuilder>()
 
-    lateinit var location : EventLocation
+    lateinit var location: EventLocation
     lateinit var category: CategoryType
 
     //Setup user input
-    fun setTitle (title: String) {
+    fun setTitle(title: String) {
         titleLiveData.value = title
     }
 
@@ -42,7 +43,7 @@ class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil, val ev
         descriptionLiveData.value = description
     }
 
-    fun getDateLiveData() : LiveData<DateBuilder> {
+    fun getDateLiveData(): LiveData<DateBuilder> {
         if (eventDateLiveData.value == null) {
             eventDateLiveData.value = DateBuilder()
         }
@@ -110,21 +111,37 @@ class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil, val ev
         category = arguments.get(EVENT_CATEGORY_TYPE) as CategoryType
     }
 
-    fun getEventDetail() : EventDetail {
-        val user = UserProfile(FireAuth.getCurrentUserId()!!, FireAuth.getCurrentUser()!!.email!!, FireAuth.getCurrentUser()!!.displayName!!)
+    fun getEventDetail(): EventDetail {
+        val user = UserProfile(
+            FireAuth.getCurrentUserId()!!,
+            FireAuth.getCurrentUser()!!.email!!,
+            FireAuth.getCurrentUser()!!.displayName!!
+        )
         val date = Timestamp(getDateLiveData().value!!.build())
         val userList = UserProfiles()
         userList.addUser(user)
-        return EventDetail("", user, category, location, titleLiveData.value!!, descriptionLiveData.value!!, date, participants = userList)
+        return EventDetail(
+            "",
+            user,
+            category,
+            location,
+            titleLiveData.value!!,
+            descriptionLiveData.value!!,
+            date,
+            participants = userList
+        )
     }
 
     fun createEvent(navController: NavController) {
-        if(!allFieldsFilled()) {
+        if (!allFieldsFilled()) {
             return
         }
-        val task = eventCreationRepo.createEvent(getEventDetail())
-        task?.addOnCompleteListener {
-            Log.d(TAG, "change to search home")
+//        val task = eventCreationRepo.createEvent(getEventDetail())
+//        task?.addOnCompleteListener {
+//            Log.d(TAG, "change to search home")
+//            navController.navigate(R.id.action_enterDetailsFragment_to_searchHomeFragment)
+//        }
+        eventsRepo.createEvent(getEventDetail()) {
             navController.navigate(R.id.action_enterDetailsFragment_to_searchHomeFragment)
         }
 

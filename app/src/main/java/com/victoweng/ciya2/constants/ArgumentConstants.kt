@@ -8,7 +8,6 @@ const val EVENT_DATE = "eventDate"
 const val EVENT_PLAYER_RANGE = "eventPlayerRange"
 const val EVENT_DETAIL = "eventDetail"
 const val EVENT_GEO_FIRE = "eventGeoPath"
-const val EVENT_CHAT_ROOM = "chatRoom"
 
 //FireBase constants
 const val FIRE_EVENT_DETAILS = "eventDetails"
@@ -17,3 +16,5 @@ const val FIRE_FRIEND_LIST = "friendList"
 const val FIRE_USER = "users"
 const val FIRE_EVENTS_ATTENDING = "eventsAttending"
 const val FIRE_CHAT_MESSAGES = "chatMessages"
+const val FIRE_HOST = "host"
+const val FIRE_CHAT_ROOM = "chatRoom"

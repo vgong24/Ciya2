@@ -7,19 +7,18 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.functions.FirebaseFunctions
-import com.victoweng.ciya2.constants.FIRE_CHAT_MESSAGES
-import com.victoweng.ciya2.constants.FIRE_EVENTS_ATTENDING
-import com.victoweng.ciya2.constants.FIRE_USER
-import com.victoweng.ciya2.constants.FireAuth
+import com.victoweng.ciya2.constants.*
+import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.data.chat.ChatMessage
 import com.victoweng.ciya2.data.chat.ChatRoom
+import com.victoweng.ciya2.repository.auth.AuthRepo
 import javax.inject.Inject
 
 /**
  * Maintains the repo for handling messaging based functionality to and from headend and sync with database
  * Responsible for sending and receiving 1-1 and group messages
  */
-class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore) {
+class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore, val authRepo: AuthRepo) {
 
     val TAG = ChatMessagesAPI::class.java.canonicalName
 
@@ -28,8 +27,9 @@ class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore) {
     }
 
     val chatRef: CollectionReference by lazy {
-        firestore.collection("chatRooms")
+        firestore.collection(FIRE_CHAT_ROOM)
     }
+
 
     //Quick approach to append writing more to headend by passing through the writeBatch from creating
     //the eventDetails
@@ -49,13 +49,31 @@ class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore) {
         writeBatch.set(userEventsRef, chatroom)
     }
 
+    /**
+     * Creates a chatroom and initial chat message document
+     * as well as adding the ChatRoom to the current user's AttendingEvents collection
+     */
+    fun createChatRoom(eventDetail: EventDetail, writeBatch: WriteBatch) {
+        val roomRef = chatRef.document(eventDetail.eventId)
+        val msgRef = roomRef.collection(FIRE_CHAT_MESSAGES)
+        val msgDoc = msgRef.document()
+        val userAttendingRef = authRepo.getCurrentUserAttendingEventsDocument()
+            .document(eventDetail.eventId)
+        val latestMsg = ChatMessage(msgDoc.id, authRepo.createCurrentUserProfile(), "Welcome")
+        val chatRoom = ChatRoom(eventDetail.eventId, eventDetail.title, latestMsg)
+
+        writeBatch.set(roomRef, chatRoom)
+        writeBatch.set(msgDoc, latestMsg)
+        writeBatch.set(userAttendingRef, chatRoom)
+    }
+
 
     fun sendMessageToGroup(groupId: String, chatMessage: ChatMessage) {
         val data = hashMapOf(
             "groupId" to groupId,
             "chatMessage" to chatMessage
         )
-           functions.getHttpsCallable("sendMessageToGroup")
+        functions.getHttpsCallable("sendMessageToGroup")
             .call(data)
         //TODO implement storing to local db
     }
@@ -85,7 +103,7 @@ class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore) {
         return getSingleChatId(uid2, uid1)
     }
 
-    fun fetchChatRoomsFor(onSuccess: (MutableList<ChatRoom>) -> Unit) : Task<QuerySnapshot> {
+    fun fetchChatRoomsFor(onSuccess: (MutableList<ChatRoom>) -> Unit): Task<QuerySnapshot> {
         return FireStoreRepo.getCurrentUserRef().collection("eventsAttending")
             .get()
             .addOnSuccessListener {

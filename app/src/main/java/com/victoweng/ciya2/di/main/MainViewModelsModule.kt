@@ -45,10 +45,6 @@ abstract class MainViewModelsModule {
     @ViewModelKey(ChooseLocationViewModel::class)
     abstract fun bindsChooseLocationViewModel(chooseLocationViewModel: ChooseLocationViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(EnterDetailsViewModel::class)
-    abstract fun bindsEnterDetailsViewModel(enterDetailsViewModel: EnterDetailsViewModel) : ViewModel
 
     @Binds
     @IntoMap

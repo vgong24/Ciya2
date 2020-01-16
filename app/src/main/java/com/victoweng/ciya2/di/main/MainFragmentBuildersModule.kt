@@ -1,5 +1,7 @@
 package com.victoweng.ciya2.di.main
 
+import com.victoweng.ciya2.di.main.events.EventsModule
+import com.victoweng.ciya2.di.main.events.EventsViewModelsModule
 import com.victoweng.ciya2.di.main.message.MessageModule
 import com.victoweng.ciya2.di.main.message.MessageViewModelsModule
 import com.victoweng.ciya2.di.main.search.ExampleModule
@@ -39,7 +41,7 @@ abstract class MainFragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun contributeChooseLocationFragment(): ChooseLocationFragment
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = [EventsViewModelsModule::class, EventsModule::class])
     abstract fun contributeEnterDetailsFragment(): EnterDetailsFragment
 
     @ContributesAndroidInjector
