@@ -10,12 +10,13 @@ import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.data.EventLocation
 import com.victoweng.ciya2.data.UserProfile
-import com.victoweng.ciya2.repository.FireStoreRepo
 import com.victoweng.ciya2.repository.FriendListRepo
+import com.victoweng.ciya2.repository.auth.AuthRepo
+import com.victoweng.ciya2.repository.event.EventApi
 import com.victoweng.ciya2.ui.custom.JoinButton
 import javax.inject.Inject
 
-class FullEventDetailsViewModel @Inject constructor(): ViewModel() {
+class FullEventDetailsViewModel @Inject constructor(val authRepo: AuthRepo, val eventApi: EventApi) : ViewModel() {
 
     val TAG = FullEventDetailsViewModel::class.java.canonicalName
 
@@ -25,6 +26,7 @@ class FullEventDetailsViewModel @Inject constructor(): ViewModel() {
     fun getEventDetailLiveData(): LiveData<EventDetail> {
         return eventDetailLiveData
     }
+
     fun getEventDetailsFrom(bundle: Bundle) {
         val detail = bundle.getParcelable(EVENT_DETAIL) as EventDetail
         updateEventDetails(detail)
@@ -37,10 +39,10 @@ class FullEventDetailsViewModel @Inject constructor(): ViewModel() {
     fun getEventLocation() = locationLiveData.value!!.toLatLng()
 
     fun setupJoinButton(join_button: JoinButton, eventDetail: EventDetail) {
-        if(isHost(eventDetail, FireAuth.getCurrentUserId()!!)) {
+        if (isHost(eventDetail, authRepo.getCurrentUserId()!!)) {
             join_button.setRequestState(JoinButton.RequestState.HOST)
         } else {
-            join_button.setRequestState(if(isUserCurrentlyAttendingEvent(eventDetail)) JoinButton.RequestState.LEAVE else JoinButton.RequestState.JOIN)
+            join_button.setRequestState(if (isUserCurrentlyAttendingEvent(eventDetail)) JoinButton.RequestState.LEAVE else JoinButton.RequestState.JOIN)
         }
         join_button.setOnClickListener {
             Log.d(TAG, "join event")
@@ -49,32 +51,34 @@ class FullEventDetailsViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun isUserCurrentlyAttendingEvent(eventDetail: EventDetail) =
-        eventDetail.participants.containsUser(FireAuth.getCurrentUserId()!!)
+        eventDetail.participants.containsUser(authRepo.getCurrentUserId()!!)
 
-    fun isHost(eventDetail: EventDetail, userId: String) :Boolean {
+    fun isHost(eventDetail: EventDetail, userId: String): Boolean {
         return eventDetail.userCreator.uid == userId
     }
 
     fun onJoinButtonClicked(joinButton: JoinButton) {
-        when(joinButton.getCurrentState()) {
+        when (joinButton.getCurrentState()) {
             JoinButton.RequestState.JOIN -> joinEvent()
             JoinButton.RequestState.JOIN_REQUESTED -> leaveEvent()
             JoinButton.RequestState.LEAVE -> leaveEvent()
+            JoinButton.RequestState.HOST -> TODO()
+            JoinButton.RequestState.DELETE -> TODO()
         }
 
     }
 
-    fun joinEvent() {
+    private fun joinEvent() {
         val event = eventDetailLiveData.value
-        FireStoreRepo.addParticipant(event!!, FireAuth.createCurrentUserProfile()) {
-            eventDetailLiveData.value?.participants?.addUser(FireAuth.createCurrentUserProfile())
+        eventApi.addParticipant(event!!, authRepo.createCurrentUserProfile()) {
+            eventDetailLiveData.value?.participants?.addUser(authRepo.createCurrentUserProfile())
             eventDetailLiveData.value = eventDetailLiveData.value
         }
     }
 
-    fun leaveEvent() {
+    private fun leaveEvent() {
         val event = eventDetailLiveData.value
-        FireStoreRepo.removeParticipant(event!!.eventId, FireAuth.createCurrentUserProfile()) {
+        eventApi.removeParticipant(event!!.eventId, FireAuth.createCurrentUserProfile()) {
             eventDetailLiveData.value?.participants?.removeUser(FireAuth.createCurrentUserProfile())
             eventDetailLiveData.value = eventDetailLiveData.value
         }

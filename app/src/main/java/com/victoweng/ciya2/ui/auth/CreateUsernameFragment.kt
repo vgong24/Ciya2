@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.ui.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
@@ -36,6 +37,12 @@ class CreateUsernameFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.observeUserCreated().observe(viewLifecycleOwner, Observer {
+            if (it) {
+                findNavController().navigate(R.id.action_createUsernameFragment_to_searchHomeFragment)
+            }
+        })
 
         confirm_button.setOnClickListener {
             viewModel.validateUserName(username_edittext.text.toString())

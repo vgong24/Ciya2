@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,13 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.ui.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
@@ -90,12 +84,14 @@ class LoginFragment : DaggerFragment() {
             AuthUI.IdpConfig.EmailBuilder().build()
         )
 
-        startActivityForResult(AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setLogo(R.drawable.ic_add_black_24dp)
-            .setTheme(R.style.AppTheme)
-            .setAvailableProviders(providers)
-            .build(), RC_SIGN_IN)
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setLogo(R.drawable.ic_add_black_24dp)
+                .setTheme(R.style.AppTheme)
+                .setAvailableProviders(providers)
+                .build(), RC_SIGN_IN
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -103,10 +99,12 @@ class LoginFragment : DaggerFragment() {
         Log.d(TAG, "onactivityResult " + requestCode)
         if (requestCode == RC_SIGN_IN) {
             val response = IdpResponse.fromResultIntent(data)
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_FIRST_USER) {
+                Log.d(TAG, "check username");
                 viewModel.userHasUserName()
             } else {
-                Log.e(TAG, "Error logging in ${response?.toString()}")
+                signIn()
+                Log.e(TAG, "Error logging in ${response?.toString()}. Retry Sign In")
             }
         }
     }

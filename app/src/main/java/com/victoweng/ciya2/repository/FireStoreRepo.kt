@@ -22,12 +22,6 @@ object FireStoreRepo {
         GeoFirestore(fireStore.collection(EVENT_GEO_FIRE))
     }
 
-    fun createUser(userProfile: UserProfile): Task<Void>? {
-        val ref = fireStore.collection("users")
-            .document(FireAuth.getCurrentUserId()!!)
-            .set(userProfile)
-        return ref
-    }
 
     fun getCurrentUserRef(): DocumentReference {
         return fireStore.collection("users").document(FireAuth.getCurrentUserId()!!)

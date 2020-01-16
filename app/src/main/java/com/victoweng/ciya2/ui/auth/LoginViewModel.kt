@@ -43,10 +43,11 @@ class LoginViewModel @Inject constructor(val toastUtil: ToastUtil, val authRepo:
 
     fun userHasUserName() {
         shouldShowSignInButtonLiveData.value = false
-        authRepo.fetchUserInfo(authRepo.getCurrentUserId()!!, onSuccess = {navigateBasedOnUserInfo(it)}, onFailed = {})
+        authRepo.fetchUserInfo(authRepo.getCurrentUserId()!!, onSuccess = {navigateBasedOnUserInfo(it)}, onFailed = {navigateBasedOnUserInfo(null)})
     }
 
     private fun navigateBasedOnUserInfo(userProfile: UserProfile?) {
+        Log.d(TAG, "navigateBasedOnUserInfo: ${userProfile?.userName}");
         userProfile?.userName?.let {
             navigateTo(R.id.action_loginFragment_to_searchHomeFragment)
         } ?: navigateTo(R.id.action_loginFragment_to_createUsernameFragment)

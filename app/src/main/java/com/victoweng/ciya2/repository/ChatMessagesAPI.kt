@@ -7,7 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.functions.FirebaseFunctions
-import com.victoweng.ciya2.constants.*
+import com.victoweng.ciya2.comparator.ChatRoomTimeComparator
+import com.victoweng.ciya2.constants.FIRE_CHAT_MESSAGES
+import com.victoweng.ciya2.constants.FIRE_CHAT_ROOM
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.data.chat.ChatMessage
 import com.victoweng.ciya2.data.chat.ChatRoom
@@ -30,38 +32,19 @@ class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore, val 
         firestore.collection(FIRE_CHAT_ROOM)
     }
 
-
-    //Quick approach to append writing more to headend by passing through the writeBatch from creating
-    //the eventDetails
-    fun createChatRoom(groupId: String, title: String, writeBatch: WriteBatch) {
-        var roomRef = chatRef.document(groupId)
-        var messageRef = roomRef.collection(FIRE_CHAT_MESSAGES)
-        var messageDoc = messageRef.document()
-        var userEventsRef = firestore.collection(FIRE_USER)
-            .document(FireAuth.getCurrentUserId()!!)
-            .collection(FIRE_EVENTS_ATTENDING)
-            .document(groupId)
-
-        var latestMessage = ChatMessage(messageDoc.id, FireAuth.createCurrentUserProfile(), "Welcome")
-        val chatroom = ChatRoom(roomId = groupId, title = title, latestMessage = latestMessage)
-        writeBatch.set(roomRef, chatroom)
-        writeBatch.set(messageDoc, latestMessage)
-        writeBatch.set(userEventsRef, chatroom)
-    }
-
     /**
-     * Creates a chatroom and initial chat message document
+     * Creates a chatroom and initial chat message document as a continuation batch
      * as well as adding the ChatRoom to the current user's AttendingEvents collection
      */
     fun createChatRoom(eventDetail: EventDetail, writeBatch: WriteBatch) {
         val roomRef = chatRef.document(eventDetail.eventId)
         val msgRef = roomRef.collection(FIRE_CHAT_MESSAGES)
         val msgDoc = msgRef.document()
-        val userAttendingRef = authRepo.getCurrentUserAttendingEventsDocument()
+        val userAttendingRef = authRepo.getCurrentUserAttendingEventsCollection()
             .document(eventDetail.eventId)
         val latestMsg = ChatMessage(msgDoc.id, authRepo.createCurrentUserProfile(), "Welcome")
         val chatRoom = ChatRoom(eventDetail.eventId, eventDetail.title, latestMsg)
-
+        eventDetail.chatRoom = chatRoom
         writeBatch.set(roomRef, chatRoom)
         writeBatch.set(msgDoc, latestMsg)
         writeBatch.set(userAttendingRef, chatRoom)
@@ -73,6 +56,7 @@ class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore, val 
             "groupId" to groupId,
             "chatMessage" to chatMessage
         )
+        functions.getHttpsCallable("sendMessageToGroup")
         functions.getHttpsCallable("sendMessageToGroup")
             .call(data)
         //TODO implement storing to local db
@@ -92,7 +76,7 @@ class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore, val 
     }
 
     fun getSingleChatId(uid1: String): String {
-        return getSingleChatId(uid1, FireAuth.getCurrentUserId()!!)
+        return getSingleChatId(uid1, authRepo.getCurrentUserId()!!)
     }
 
     private fun getSingleChatId(uid1: String, uid2: String): String {
@@ -104,14 +88,15 @@ class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore, val 
     }
 
     fun fetchChatRoomsFor(onSuccess: (MutableList<ChatRoom>) -> Unit): Task<QuerySnapshot> {
-        return FireStoreRepo.getCurrentUserRef().collection("eventsAttending")
+        return authRepo.getCurrentUserAttendingEventsCollection()
             .get()
             .addOnSuccessListener {
                 var list = it.toObjects(ChatRoom::class.java)
-                Log.d("CLOWN", "Success: ${list.size}")
+                list = list.sortedWith(ChatRoomTimeComparator())
+                Log.d(TAG, "fetchChatRooms: Success: ${list.size}")
                 onSuccess(list)
             }.addOnFailureListener {
-                Log.d("CLOWN", "Failed ${it.message}")
+                Log.d(TAG, "fetchChatRooms: Failed ${it.message}")
                 onSuccess(mutableListOf())
             }
     }

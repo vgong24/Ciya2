@@ -1,7 +1,6 @@
 package com.victoweng.ciya2.ui.searchEvent
 
 import android.location.Location
-import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,32 +9,22 @@ import androidx.navigation.NavController
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.constants.EVENT_DETAIL
 import com.victoweng.ciya2.data.EventDetail
-import com.victoweng.ciya2.repository.FireStoreRepo
+import com.victoweng.ciya2.repository.event.EventApi
 import javax.inject.Inject
 
-class SearchHomeViewModel @Inject constructor(): ViewModel() {
+class SearchHomeViewModel @Inject constructor(val eventApi: EventApi) : ViewModel() {
 
-    init {
-        Log.d("CLOWN", "created")
-    }
-    val localEventLiveData = MutableLiveData<List<EventDetail>>()
+    private val localEventLiveData = MutableLiveData<List<EventDetail>>()
 
     fun getLocalEventList(): LiveData<List<EventDetail>> {
         return localEventLiveData
     }
 
     fun fetchLocalEvents(location: Location) {
-            FireStoreRepo.fetchLocalEvents(location, {list -> updateLocalEvents(list) })
-
-//        !!.addOnSuccessListener {document ->
-//                if (document != null) {
-//                    val results = document.toObjects(EventDetail::class.java)
-//                        localEventLiveData.value = results
-//                }
-//            }
+        eventApi.fetchLocalEvents(location) { list -> updateLocalEvents(list) }
     }
 
-    fun updateLocalEvents(result: MutableList<EventDetail>) {
+    private fun updateLocalEvents(result: MutableList<EventDetail>) {
         localEventLiveData.value = result
     }
 
@@ -45,7 +34,6 @@ class SearchHomeViewModel @Inject constructor(): ViewModel() {
         )
         navController.navigate(R.id.action_searchHomeFragment_to_fullEventDetails, bundle)
     }
-
 
 
 }

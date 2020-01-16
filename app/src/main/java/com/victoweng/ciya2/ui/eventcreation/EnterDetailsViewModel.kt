@@ -17,13 +17,14 @@ import com.victoweng.ciya2.constants.EVENT_CATEGORY_TYPE
 import com.victoweng.ciya2.constants.EVENT_LOCATION
 import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.*
+import com.victoweng.ciya2.repository.auth.AuthRepo
 import com.victoweng.ciya2.repository.event.EventsRepo
 import com.victoweng.ciya2.util.ToastUtil
 import com.victoweng.ciya2.util.date.DateBuilder
 import com.victoweng.ciya2.util.date.DateTimeUtil
 import javax.inject.Inject
 
-class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil, val eventsRepo: EventsRepo) : ViewModel(),
+class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil, val eventsRepo: EventsRepo, val authRepo: AuthRepo) : ViewModel(),
     DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     val TAG = EnterDetailsViewModel::class.java.canonicalName
@@ -113,9 +114,9 @@ class EnterDetailsViewModel @Inject constructor(val toastUtil: ToastUtil, val ev
 
     fun getEventDetail(): EventDetail {
         val user = UserProfile(
-            FireAuth.getCurrentUserId()!!,
-            FireAuth.getCurrentUser()!!.email!!,
-            FireAuth.getCurrentUser()!!.displayName!!
+            authRepo.getCurrentUserId()!!,
+            authRepo.getCurrentUser()!!.email!!,
+            authRepo.getCurrentUser()!!.displayName!!
         )
         val date = Timestamp(getDateLiveData().value!!.build())
         val userList = UserProfiles()

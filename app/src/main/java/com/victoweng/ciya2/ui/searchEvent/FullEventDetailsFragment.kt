@@ -20,19 +20,29 @@ import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.AttendeeAdapter
 import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.EventDetail
+import com.victoweng.ciya2.repository.auth.AuthRepo
 import com.victoweng.ciya2.ui.viewmodels.FullEventDetailsViewModel
+import com.victoweng.ciya2.ui.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_full_event_details.*
+import javax.inject.Inject
 
 class FullEventDetailsFragment : DaggerFragment(), OnMapReadyCallback {
 
     val TAG = FullEventDetailsFragment::class.java.canonicalName
+
+    @Inject
+    lateinit var authRepo: AuthRepo
+
+    @Inject
+    lateinit var provider : ViewModelProviderFactory
+
     val viewModel: FullEventDetailsViewModel by lazy {
-        ViewModelProvider(this).get(FullEventDetailsViewModel::class.java)
+        ViewModelProvider(this, provider).get(FullEventDetailsViewModel::class.java)
     }
 
     val attendeeAdapter: AttendeeAdapter by lazy {
-        AttendeeAdapter { userProfile -> viewModel.onAddButtonClicked(userProfile) }
+        AttendeeAdapter(authRepo) { userProfile -> viewModel.onAddButtonClicked(userProfile) }
     }
 
     lateinit var gMap: GoogleMap
@@ -60,7 +70,7 @@ class FullEventDetailsFragment : DaggerFragment(), OnMapReadyCallback {
     }
 
     private fun setMarkerVisibility(it: EventDetail) {
-        markerPoint?.isVisible = it.participants.containsUser(FireAuth.getCurrentUserId()!!)
+        markerPoint?.isVisible = it.participants.containsUser(authRepo.getCurrentUserId()!!)
         Log.d("CLOWN", "Set markerVisibility... ${markerPoint?.isVisible}")
     }
 

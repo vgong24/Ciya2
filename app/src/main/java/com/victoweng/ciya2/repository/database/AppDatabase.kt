@@ -17,7 +17,7 @@ import com.victoweng.ciya2.repository.database.typeconverter.UserProfilesConvert
  * Realized later that I can just use FirebaseFireStore and database to handle all my
  * local database needs and will not require using Room.
  * However, the experience is invaluable and is a good reference for job references
- * 
+ *
  */
 @Database(
     entities = arrayOf(
