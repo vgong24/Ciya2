@@ -78,8 +78,8 @@ class FullEventDetailsViewModel @Inject constructor(val authRepo: AuthRepo, val 
 
     private fun leaveEvent() {
         val event = eventDetailLiveData.value
-        eventApi.removeParticipant(event!!.eventId, FireAuth.createCurrentUserProfile()) {
-            eventDetailLiveData.value?.participants?.removeUser(FireAuth.createCurrentUserProfile())
+        eventApi.removeParticipant(event!!.eventId, authRepo.createCurrentUserProfile()) {
+            eventDetailLiveData.value?.participants?.removeUser(authRepo.createCurrentUserProfile())
             eventDetailLiveData.value = eventDetailLiveData.value
         }
     }

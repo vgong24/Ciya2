@@ -134,14 +134,15 @@ class EventApi @Inject constructor(
         }
     }
 
-    fun removeParticipant(eventId: String, profile: UserProfile, onComplete: (EventDetail) -> Unit) {
+    fun removeParticipant(eventId: String, profile: UserProfile, onComplete: () -> Unit) {
         val eventDocRef = getEventDoc(eventId)
         val eventAttendingRef = authRepo.getCurrentlyAttendingEvent(eventId)
         firestore.runBatch { writeBatch ->
             writeBatch.update(eventDocRef, FIRE_PARTICIPANT_USERS, FieldValue.arrayRemove(profile))
             writeBatch.delete(eventAttendingRef)
         }.addOnCompleteListener {
-            Log.d(TAG, "removeParticipant: ${if (it.isSuccessful) "" else "un"}successfully removed");
+            Log.d(TAG, "removeParticipant: ${if (it.isSuccessful) "" else "un"}successfully removed")
+            if (it.isSuccessful) onComplete()
         }
     }
 
