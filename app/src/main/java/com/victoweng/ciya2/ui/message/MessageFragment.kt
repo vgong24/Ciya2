@@ -2,13 +2,17 @@ package com.victoweng.ciya2.ui.message
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.victoweng.ciya2.R
 import com.victoweng.ciya2.adapter.messages.MessagesAdapter
+import com.victoweng.ciya2.constants.FIRE_CHAT_ROOM
+import com.victoweng.ciya2.data.chat.ChatRoom
 import com.victoweng.ciya2.repository.auth.AuthRepo
 import com.victoweng.ciya2.ui.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
@@ -46,6 +50,14 @@ class MessageFragment : DaggerFragment() {
             adapter = messageAdapter
             layoutManager = LinearLayoutManager(context)
         }
+        val chatRoom = arguments!!.get(FIRE_CHAT_ROOM) as ChatRoom
+
+        viewModel.addChatMessagesListener(chatRoom.roomId)
+
+        viewModel.observeMessagesLiveData().observe(viewLifecycleOwner, Observer {
+            Log.d("CLOWN", "update message ${it.size}");
+            messageAdapter.updateMessages(it)
+        })
     }
 
 }

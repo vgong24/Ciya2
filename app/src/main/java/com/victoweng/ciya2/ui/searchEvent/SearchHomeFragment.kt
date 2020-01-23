@@ -32,13 +32,13 @@ class SearchHomeFragment : DaggerFragment() {
     lateinit var providerFactory: ViewModelProviderFactory
 
     val TAG = SearchHomeFragment::class.java.canonicalName
-    val MY_PERMISSION_ACCESS_COURSE_LOCATION = 11
+    private val MY_PERMISSION_ACCESS_COURSE_LOCATION = 11
 
     val viewModel : SearchHomeViewModel by lazy {
         ViewModelProviders.of(this, providerFactory).get(SearchHomeViewModel::class.java)
     }
 
-    val searchAdapter: SearchAdapter by lazy {
+    private val searchAdapter: SearchAdapter by lazy {
         SearchAdapter{eventDetail -> eventItemClicked(eventDetail) }
     }
 
@@ -125,7 +125,7 @@ class SearchHomeFragment : DaggerFragment() {
         }
     }
 
-    fun eventItemClicked(eventDetails: EventDetail) {
+    private fun eventItemClicked(eventDetails: EventDetail) {
         //Go to event details screen
         viewModel.goToEventDetailsScreen(eventDetails, findNavController())
         Log.d(TAG, "event item clicked!")

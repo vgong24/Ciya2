@@ -6,4 +6,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class UserProfile (val uid: String = "",
                         val email: String = "",
-                        val userName: String = "") : Parcelable
+                        val userName: String = "",
+                        val registrationTokens: MutableList<String> = mutableListOf()) : Parcelable

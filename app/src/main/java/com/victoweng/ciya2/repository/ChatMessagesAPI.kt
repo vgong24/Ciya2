@@ -2,14 +2,12 @@ package com.victoweng.ciya2.repository
 
 import android.util.Log
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.WriteBatch
+import com.google.firebase.firestore.*
 import com.google.firebase.functions.FirebaseFunctions
 import com.victoweng.ciya2.comparator.ChatRoomTimeComparator
 import com.victoweng.ciya2.constants.FIRE_CHAT_MESSAGES
 import com.victoweng.ciya2.constants.FIRE_CHAT_ROOM
+import com.victoweng.ciya2.constants.FIRE_TIME
 import com.victoweng.ciya2.data.EventDetail
 import com.victoweng.ciya2.data.chat.ChatMessage
 import com.victoweng.ciya2.data.chat.ChatRoom
@@ -99,5 +97,9 @@ class ChatMessagesAPI @Inject constructor(val firestore: FirebaseFirestore, val 
                 Log.d(TAG, "fetchChatRooms: Failed ${it.message}")
                 onSuccess(mutableListOf())
             }
+    }
+
+    fun fetchMessages(channelId: String): Query {
+        return chatRef.document(channelId).collection(FIRE_CHAT_MESSAGES).orderBy(FIRE_TIME)
     }
 }

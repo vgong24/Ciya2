@@ -105,7 +105,7 @@ class ChooseLocationFragment : DaggerFragment(), OnMapReadyCallback {
             }
     }
 
-    fun zoomIntoLocation(location: Location) {
+    private fun zoomIntoLocation(location: Location) {
         val latLng = LatLng(location.latitude, location.longitude)
         Log.d(TAG, "zoomIntoLocation latlng " + latLng.toString())
         googleMap.addMarker(MarkerOptions().position(latLng).title("Current Location"))

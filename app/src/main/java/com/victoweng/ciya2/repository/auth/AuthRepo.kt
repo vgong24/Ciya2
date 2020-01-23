@@ -9,9 +9,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.victoweng.ciya2.constants.FIRE_EVENTS_ATTENDING
+import com.victoweng.ciya2.constants.FIRE_TOKENS
 import com.victoweng.ciya2.constants.FIRE_USER
 import com.victoweng.ciya2.constants.FIRE_USERNAMES
-import com.victoweng.ciya2.constants.FireAuth
 import com.victoweng.ciya2.data.UserProfile
 import javax.inject.Inject
 
@@ -68,7 +68,7 @@ class AuthRepo @Inject constructor(
             })
     }
 
-    //Joint functions
+    //Joint functions. Should only really refer to the current users profile when they change their username
     fun updateUserProfile(userProfile: UserProfile) {
         fireStore.collection(FIRE_USER)
             .document(userProfile.uid)
@@ -99,5 +99,27 @@ class AuthRepo @Inject constructor(
                     Log.d(TAG, "Updated current profile DisplayName: ${profileUpdates.displayName}")
                 }
             }
+    }
+
+    //Token management
+    fun addTokenToFirestore(newRegistrationToken: String?) {
+        if (newRegistrationToken == null) throw NullPointerException("FCM token is null")
+        getFCMRegistrationTokens { tokens ->
+            if (tokens.contains(newRegistrationToken))
+                return@getFCMRegistrationTokens
+            tokens.add(newRegistrationToken)
+            setFCMRegistrationTokens(tokens)
+        }
+    }
+
+    fun getFCMRegistrationTokens(onComplete: (tokens: MutableList<String>) -> Unit) {
+        getCurrentUserDocument().get().addOnSuccessListener {
+            val user = it.toObject(UserProfile::class.java)!!
+            onComplete(user.registrationTokens)
+        }
+    }
+
+    fun setFCMRegistrationTokens(registrationTokens: MutableList<String>) {
+        getCurrentUserDocument().update(mapOf(FIRE_TOKENS to registrationTokens))
     }
 }
